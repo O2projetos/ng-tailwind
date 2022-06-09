@@ -201,6 +201,37 @@
           }
         }
       }
+    },
+    "ng-datepicker": {
+      "projectType": "library",
+      "root": "projects/ng-datepicker",
+      "sourceRoot": "projects/ng-datepicker/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ng-datepicker/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ng-datepicker/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ng-datepicker/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ng-datepicker/src/test.ts",
+            "tsConfig": "projects/ng-datepicker/tsconfig.spec.json",
+            "karmaConfig": "projects/ng-datepicker/karma.conf.js"
+          }
+        }
+      }
     }
   },
   "defaultProject": "ng-tailwind-documentation"

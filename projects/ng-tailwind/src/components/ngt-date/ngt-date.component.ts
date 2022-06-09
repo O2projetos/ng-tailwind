@@ -27,7 +27,7 @@ const Brazil = require("flatpickr/dist/l10n/pt.js").default.pt;
 const US = require("flatpickr/dist/l10n/default.js").default;
 
 let moment = require('moment');
-let Inputmask = require('inputmask');
+let inputmask = require('inputmask');
 
 @Component({
     selector: 'ngt-date',
@@ -53,7 +53,7 @@ export class NgtDateComponent extends NgtBaseNgModel implements OnInit, OnDestro
     @Input() public shining = false;
     @Input() public dateFormat: string = 'd/m/Y H:i';
     @Input() public dateFormatNgModel = 'YYYY-MM-DD HH:mm:00';
-    @Input() public showCalendarIcon: boolean = false;
+    @Input() public showCalendarIcon: boolean = true;
 
     // Behavior
     @Input() public name: string;
@@ -146,11 +146,12 @@ export class NgtDateComponent extends NgtBaseNgModel implements OnInit, OnDestro
             maxDate: this.maxDate,
             time_24hr: this.time_24hr,
             enableTime: this.enableTime,
-            noCalendar: this.noCalendar,
+            noCalendar: false,
             allowInput: this.allowInput && !this.enableTime,
             locale: this.getLocale(),
             onChange: (selectedDates, dateStr, instance) => this.onNativeChange(selectedDates, dateStr, instance, true),
             onClose: (selectedDates, dateStr, instance) => this.onNativeChange(selectedDates, dateStr, instance, false),
+            onOpen: () => console.log(this.componentReady)
         };
 
         if (!this.formContainer) {
@@ -332,11 +333,11 @@ export class NgtDateComponent extends NgtBaseNgModel implements OnInit, OnDestro
 
     private setupDateInputMask(): void {
         if (this.locale == NgtDateLocale.BRAZIL) {
-            return Inputmask('date', { mask: '99/99/9999' }).mask(this.ng2FlatpickrComponent.flatpickr['input']);
+            return inputmask('date', { mask: '99/99/9999' }).mask(this.ng2FlatpickrComponent.flatpickr['input']);
         }
 
         if (this.locale == NgtDateLocale.US) {
-            return Inputmask('date', { mask: '9999-99-99' }).mask(this.ng2FlatpickrComponent.flatpickr['input']);
+            return inputmask('date', { mask: '9999-99-99' }).mask(this.ng2FlatpickrComponent.flatpickr['input']);
         }
     }
 

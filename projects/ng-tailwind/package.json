@@ -1,6 +1,6 @@
 {
     "name": "@o2projetos/ng-tailwind",
-    "version": "1.0.0",
+    "version": "1.0.1-debug.1",
     "peerDependencies": {
         "@angular/common": ">6.0.0",
         "@angular/core": ">6.0.0",
@@ -21,24 +21,5 @@
         "angular-svg-icon": "^8.0.0",
         "inputmask": "^4.0.9",
         "tslib": "^2.0.0"
-    },
-    "description": "This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.2.14.",
-    "main": "karma.conf.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/O2projetos/ng-tailwind.git"
-    },
-    "keywords": [
-        "tailwind",
-        "angular"
-    ],
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/O2projetos/ng-tailwind/issues"
-    },
-    "homepage": "https://github.com/O2projetos/ng-tailwind#readme"
+    }
 }
