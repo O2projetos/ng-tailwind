@@ -87,7 +87,7 @@ export const defaultTemplateCalendarClasses: NgtDatepickerCalendarTheme = {
     today: 'font-bold border border-gray-800',
     selectedDay: 'bg-gray-800 bold text-white',
     onDayHover: 'hover:bg-gray-800 hover:text-white'
-}
+};
 
 export const nightTemplateCalendarClasses: NgtDatepickerCalendarTheme = {
     datepickerBackground: 'bg-gray-800',
@@ -96,4 +96,4 @@ export const nightTemplateCalendarClasses: NgtDatepickerCalendarTheme = {
     today: 'font-bold border border-white',
     selectedDay: 'bg-white bold text-gray-800',
     onDayHover: 'hover:bg-white hover:text-gray-800'
-}
+};

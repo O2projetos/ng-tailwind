@@ -202,23 +202,23 @@
         }
       }
     },
-    "ng-datepicker": {
+    "ngt-datepicker": {
       "projectType": "library",
-      "root": "projects/ng-datepicker",
-      "sourceRoot": "projects/ng-datepicker/src",
+      "root": "projects/ngt-datepicker",
+      "sourceRoot": "projects/ngt-datepicker/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/ng-datepicker/ng-package.json"
+            "project": "projects/ngt-datepicker/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/ng-datepicker/tsconfig.lib.prod.json"
+              "tsConfig": "projects/ngt-datepicker/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/ng-datepicker/tsconfig.lib.json"
+              "tsConfig": "projects/ngt-datepicker/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -226,9 +226,9 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/ng-datepicker/src/test.ts",
-            "tsConfig": "projects/ng-datepicker/tsconfig.spec.json",
-            "karmaConfig": "projects/ng-datepicker/karma.conf.js"
+            "main": "projects/ngt-datepicker/src/test.ts",
+            "tsConfig": "projects/ngt-datepicker/tsconfig.spec.json",
+            "karmaConfig": "projects/ngt-datepicker/karma.conf.js"
           }
         }
       }

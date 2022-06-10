@@ -1,5 +1,5 @@
 /*
- * Public API Surface of ng-datepicker
+ * Public API Surface of ngt-datepicker
  */
 
 export * from './app/ngt-datepicker.component';

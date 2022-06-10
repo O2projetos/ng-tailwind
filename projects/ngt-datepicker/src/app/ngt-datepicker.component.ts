@@ -68,10 +68,18 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
     @Input() public locale: Locale;
     @Input() public type: NgtDatepickerTypeEnum;
 
+    public dates: Array<Date> = [];
+    public days: Array<Day>;
+    public weekDays: Array<string>;
+
     // TODO Implements custom theme
     // @Input() public calendarCustomTheme: NgtDatepickerCalendarTheme;
 
-    @HostListener('document:click', ['$event']) onBlur(e: MouseEvent): void {
+    public constructor(private changeDetectorRef: ChangeDetectorRef) {
+        super();
+    }
+
+    @HostListener('document:click', ['$event']) public onBlur(e: MouseEvent): void {
         if (!this.isOpened) {
             return;
         }
@@ -92,14 +100,6 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
         ) {
             this.isOpened = false;
         }
-    }
-
-    public dates: Array<Date> = [];
-    public days: Array<Day>;
-    public weekDays: Array<string>;
-
-    public constructor(private changeDetectorRef: ChangeDetectorRef) {
-        super();
     }
 
     public get date(): Date | null {
@@ -166,7 +166,7 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
         }
 
         if (day.isToday) {
-            return this.template.today
+            return this.template.today;
         }
     }
 
@@ -222,9 +222,9 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
 
     private canCloseAfterSelectDate(): boolean {
         return (
-                this.datepickerOptions.type == NgtDatepickerTypeEnum.NORMAL
+            this.datepickerOptions.type == NgtDatepickerTypeEnum.NORMAL
                 && this.datepickerOptions.closeOnSelect
-            )
+        )
             || (
                 this.datepickerOptions.type == NgtDatepickerTypeEnum.RANGE
                 && this.datepickerOptions.closeOnSelect

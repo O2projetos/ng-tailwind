@@ -6,8 +6,7 @@ import { NgtDateModule, NgtPortletModule } from 'projects/ng-tailwind/src/public
 import { CodePreviewModule } from 'src/app/components/code-preview/code-preview.module';
 
 import { NgtDatePageComponent } from './ngt-date-page.component';
-import {DatepickerModule} from "ng2-datepicker";
-import {NgtDatepickerModule} from "../../../../../projects/ng-datepicker/src/app/ngt-datepicker.module";
+import {NgtDatepickerModule} from "@o2projetos/ngt-datepicker";
 
 const routes: Routes = [
     {

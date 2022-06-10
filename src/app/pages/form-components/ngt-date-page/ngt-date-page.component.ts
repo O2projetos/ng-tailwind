@@ -1,12 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NgtDateLocale, NgtDateMode} from 'projects/ng-tailwind/src/public-api';
-import {DatepickerOptions} from "ng2-datepicker";
-import {getYear} from 'date-fns';
-import locale from 'date-fns/locale/pt-BR';
-import {
-    NgtDatepickerCalendarTheme,
-    NgtDatepickerCalendarThemeEnum, NgtDatepickerTypeEnum
-} from "../../../../../projects/ng-datepicker/src/app/ngt-datepicker.helper";
+import {NgtDatepickerCalendarThemeEnum, NgtDatepickerTypeEnum} from "@o2projetos/ngt-datepicker";
 
 @Component({
     selector: 'app-ngt-date-page',

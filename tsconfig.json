@@ -20,9 +20,9 @@
             "dom"
         ],
         "paths": {
-          "ng-datepicker": [
-            "dist/ng-datepicker/ng-datepicker",
-            "dist/ng-datepicker"
+          "ngt-datepicker": [
+            "dist/ngt-datepicker/ngt-datepicker",
+            "dist/ngt-datepicker"
           ],
             "ng-tailwind": [
                 "dist/ng-tailwind"
