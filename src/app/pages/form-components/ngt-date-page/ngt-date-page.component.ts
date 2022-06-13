@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {NgtDateLocale, NgtDateMode} from 'projects/ng-tailwind/src/public-api';
-import {NgtDatepickerCalendarThemeEnum, NgtDatepickerTypeEnum} from "@o2projetos/ngt-datepicker";
 
 @Component({
     selector: 'app-ngt-date-page',
@@ -15,9 +14,6 @@ export class NgtDatePageComponent implements OnInit {
     public dateRangeType = NgtDateMode.RANGE;
 
     public date: Date = new Date();
-
-    public ngtDatepickerTypeEnum = NgtDatepickerTypeEnum;
-    public ngtDatepickerCalendarThemeEnum = NgtDatepickerCalendarThemeEnum;
 
     public codeExample = `
   <form class="flex w-full pb-2 border-b">
