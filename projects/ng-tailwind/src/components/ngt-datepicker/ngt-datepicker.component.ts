@@ -432,7 +432,7 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
             this.ngtStyle = new NgtStylizableService();
         }
 
-        this.ngtStyle.load(this.injector, 'NgtDate', {
+        this.ngtStyle.load(this.injector, 'NgtDatepicker', {
             h: 'h-10',
             text: 'text-sm',
             border: 'border',
