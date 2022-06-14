@@ -5,12 +5,20 @@
 
         <p class="pb-4 font-semibold">Examples:</p>
 
+        <form>
+            <div class="flex flex-wrap justify-center w-full py-5">
+                <ngt-datepicker class="w-3/5" label="aaaa" [(ngModel)]="ngtDate" [defaultDate]="date" [type]="NgtDatepickerTypeEnum.RANGE" name="aaaaaa" [clearable]="true"></ngt-datepicker>
+                <br>
+                {{ngtDate}}
+            </div>
+        </form>
+
         <div class="flex flex-col border rounded-lg py-2">
             <form class="flex w-full pb-2 border-b">
                 <div class="flex flex-wrap w-full justify-center">
                     <div class="flex flex-col w-full md:w-3/12 pr-0 md:pr-6 mx-4">
                         <ngt-date label='NgtDate (Brazilian format)' [locale]='dateOneLocale' placeholder='Selecione...'
-                            name='dateOne' [(ngModel)]='dateOne'>
+                                  name='dateOne' [(ngModel)]='dateOne'>
                         </ngt-date>
                         <span class="my-2 font-semibold text-sm">
                             NgModel value: <span class="font-normal">{{ dateOne }}</span>
@@ -19,7 +27,8 @@
 
                     <div class="flex flex-col w-full md:w-3/12 pr-0 md:pr-6 mx-4">
                         <ngt-date label='Without time (Custom date format)' placeholder='Selecione...' name='dateTwo'
-                            [(ngModel)]='dateTwo' dateFormat='d M. Y' dateFormatNgModel='YYYY-MM-DD' [enableTime]=false>
+                                  [(ngModel)]='dateTwo' dateFormat='d M. Y' dateFormatNgModel='YYYY-MM-DD'
+                                  [enableTime]=false>
                         </ngt-date>
                         <span class="my-2 font-semibold text-sm">
                             NgModel value: <span class="font-normal">{{ dateTwo }}</span>
@@ -28,8 +37,8 @@
 
                     <div class="flex flex-col w-full md:w-3/12 pr-0 md:pr-6 mx-4">
                         <ngt-date label='NgtDate Range' placeholder='Selecione...' name='dateRange'
-                            [mode]='dateRangeType' [(ngModel)]='dateRange' dateFormat='Y/m/d'
-                            dateFormatNgModel='YYYY-MM-DD' [enableTime]='false'>
+                                  [mode]='dateRangeType' [(ngModel)]='dateRange' dateFormat='Y/m/d'
+                                  dateFormatNgModel='YYYY-MM-DD' [enableTime]='false'>
                         </ngt-date>
                         <span class="my-2 font-semibold text-sm">
                             NgModel value: <span class="font-normal">{{ dateRange | json }}</span>

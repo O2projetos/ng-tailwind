@@ -12,16 +12,16 @@ import {
     ViewChild,
     ViewEncapsulation,
 } from '@angular/core';
-import { ControlContainer, NgForm, Validators } from '@angular/forms';
-import { FlatpickrOptions, Ng2FlatpickrComponent } from 'ng2-flatpickr';
-import { Subscription } from 'rxjs';
+import {ControlContainer, NgForm, Validators} from '@angular/forms';
+import {FlatpickrOptions, Ng2FlatpickrComponent} from 'ng2-flatpickr';
+import {Subscription} from 'rxjs';
 
-import { NgtBaseNgModel, NgtMakeProvider } from '../../base/ngt-base-ng-model';
-import { NgtStylizableDirective } from '../../directives/ngt-stylizable/ngt-stylizable.directive';
-import { getEnumFromString } from '../../helpers/enum/enum';
-import { uuid } from '../../helpers/uuid';
-import { NgtStylizableService } from '../../services/ngt-stylizable/ngt-stylizable.service';
-import { NgtFormComponent } from '../ngt-form/ngt-form.component';
+import {NgtBaseNgModel, NgtMakeProvider} from '../../base/ngt-base-ng-model';
+import {NgtStylizableDirective} from '../../directives/ngt-stylizable/ngt-stylizable.directive';
+import {getEnumFromString} from '../../helpers/enum/enum';
+import {uuid} from '../../helpers/uuid';
+import {NgtStylizableService} from '../../services/ngt-stylizable/ngt-stylizable.service';
+import {NgtFormComponent} from '../ngt-form/ngt-form.component';
 
 const Brazil = require("flatpickr/dist/l10n/pt.js").default.pt;
 const US = require("flatpickr/dist/l10n/default.js").default;
@@ -38,11 +38,11 @@ let inputmask = require('inputmask');
         NgtMakeProvider(NgtDateComponent),
     ],
     viewProviders: [
-        { provide: ControlContainer, useExisting: NgForm }
+        {provide: ControlContainer, useExisting: NgForm}
     ]
 })
 export class NgtDateComponent extends NgtBaseNgModel implements OnInit, OnDestroy {
-    @ViewChild("ng2FlatpickrComponent", { static: true }) public ng2FlatpickrComponent: Ng2FlatpickrComponent;
+    @ViewChild("ng2FlatpickrComponent", {static: true}) public ng2FlatpickrComponent: Ng2FlatpickrComponent;
 
     // Visual
     @Input() public label: string = "";
@@ -333,11 +333,11 @@ export class NgtDateComponent extends NgtBaseNgModel implements OnInit, OnDestro
 
     private setupDateInputMask(): void {
         if (this.locale == NgtDateLocale.BRAZIL) {
-            return inputmask('date', { mask: '99/99/9999' }).mask(this.ng2FlatpickrComponent.flatpickr['input']);
+            return inputmask('date', {mask: '99/99/9999'}).mask(this.ng2FlatpickrComponent.flatpickr['input']);
         }
 
         if (this.locale == NgtDateLocale.US) {
-            return inputmask('date', { mask: '9999-99-99' }).mask(this.ng2FlatpickrComponent.flatpickr['input']);
+            return inputmask('date', {mask: '9999-99-99'}).mask(this.ng2FlatpickrComponent.flatpickr['input']);
         }
     }
 
