@@ -30,11 +30,23 @@
             "ng-tailwind/*": [
                 "dist/ng-tailwind/*"
             ],
+            "ngt-demo": [
+              "dist/ngt-demo/ngt-demo",
+              "dist/ngt-demo"
+            ],
             "ngt-http-coloquent": [
                 "dist/ngt-http-coloquent"
             ],
             "ngt-http-coloquent/*": [
                 "dist/ngt-http-coloquent/*"
+            ],
+            "ngt-stylizable": [
+              "dist/ngt-stylizable/ngt-stylizable",
+              "dist/ngt-stylizable"
+            ],
+            "ngt-svg": [
+              "dist/ngt-svg/ngt-svg",
+              "dist/ngt-svg"
             ]
         }
     },

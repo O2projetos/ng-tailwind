@@ -1,15 +1,22 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgtAttachmentHttpService, NgtHttpFormService, NgtHttpService, NgtTranslateService } from 'projects/ng-tailwind/src/public-api';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {
+    NgtAttachmentHttpService,
+    NgtHttpFormService,
+    NgtHttpService,
+    NgtTranslateService
+} from 'projects/ng-tailwind/src/public-api';
 
-import { NgtHttpFormTestService } from '../app/services/ngt-http-form-test.service';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { HomeModule } from './pages/home/home.module';
-import { NgtAttachmentHttpServiceTest } from './services/ngt-attachment-http-test.service';
-import { NgtHttpTest } from './services/ngt-http-test.service';
-import { NgtTranslateDefaultService } from './services/ngt-translate-default.service';
+import {NgtHttpFormTestService} from './services/ngt-http-form-test.service';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {HomeModule} from './pages/home/home.module';
+import {NgtAttachmentHttpServiceTest} from './services/ngt-attachment-http-test.service';
+import {NgtHttpTest} from './services/ngt-http-test.service';
+import {NgtTranslateDefaultService} from './services/ngt-translate-default.service';
+import {NgtStylizableModule} from "@o2projetos/ngt-stylizable";
+import {NgtSvgModule} from "@o2projetos/ngt-svg";
 
 @NgModule({
     declarations: [
@@ -19,7 +26,9 @@ import { NgtTranslateDefaultService } from './services/ngt-translate-default.ser
         BrowserModule,
         BrowserAnimationsModule,
         AppRoutingModule,
-        HomeModule
+        HomeModule,
+        NgtSvgModule,
+        NgtStylizableModule
     ],
     providers: [
         {
