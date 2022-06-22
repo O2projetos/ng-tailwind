@@ -1,5 +1,5 @@
 import {Locale} from 'date-fns';
-import  locale from 'date-fns/locale/en-US';
+import locale from 'date-fns/locale/en-US';
 
 export enum NgtDatepickerFirstCalendarDayEnum {
     SUNDAY = 'SUNDAY',
@@ -50,8 +50,9 @@ export interface NgtDatepickerOptions {
     formatTitle?: string;
     formatInput?: string;
     placeholder?: string;
-    enableTime?: boolean;
+    // enableTime?: boolean;
     hideCalendarIcon?: boolean;
+    clearable?: boolean;
 }
 
 export interface NgtDatepickerCalendarTheme {
@@ -76,7 +77,6 @@ export const defaultDatePickerOptions: NgtDatepickerOptions = {
     formatTitle: 'EEEEE',
     formatInput: 'dd/MM/yyyy',
     placeholder: 'dd/MM/yyyy hh:ii',
-    enableTime: false,
     hideCalendarIcon: false
 };
 

@@ -1,5 +1,5 @@
-import { EventEmitter, forwardRef } from '@angular/core';
-import { AbstractControl, ControlContainer, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {EventEmitter, forwardRef} from '@angular/core';
+import {AbstractControl, ControlContainer, ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 /**
  * Based on https://stackoverflow.com/a/37786142/8055997

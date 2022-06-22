@@ -1,16 +1,48 @@
-<form>
-    <div class="relative z-20 w-full inline-block box-border">
-        <input type="hidden" [ngModel]="value" [value]="value" [name]="name">
+<label class="flex mb-2 {{ngtStyle.compile(['text', 'color.text', 'fontCase'])}}"
+       *ngIf="label">
+    {{ label }}:
 
-        <div
-            class="flex items-center cursor-pointer justify-between w-full px-2 {{datepickerOptions.hideCalendarIcon ? '' : 'gap-2'}} {{inputClasses}}"
-            (click)="open()" #input>
-            <div class="truncate">
-                <div *ngIf="!value" class="opacity-75">
-                    {{datepickerOptions.placeholder}}
-                </div>
+    <span class="text-red-500 font-bold text-md ml-1" *ngIf="isRequired">*</span>
 
-                {{formattedValue}}
+    <ngt-helper *ngIf="helpText" class="ml-1">
+        <ng-container title>
+            {{helpTitle}}
+        </ng-container>
+        <ng-container text>
+            {{ helpText }}
+        </ng-container>
+    </ngt-helper>
+</label>
+
+<div *ngIf="isDisabled" class="w-full px-4 py-3 rounded appearance-none block border bg-gray-100 border-gray-400">
+    <div *ngIf="!value" class="opacity-75">
+        {{datepickerOptions.placeholder}}
+    </div>
+    {{formattedDates}}
+</div>
+
+<div *ngIf="!isDisabled" class="relative z-20 w-full inline-block box-border">
+    <input type="hidden" [ngModel]="value" [value]="value" [name]="name">
+
+    <div
+        class="flex items-center justify-between w-full px-2 {{hasErrors() ? 'border-error' : 'border-normal'}} {{ngtStyle.compile(['h', 'border', 'rounded', 'color.border'])}}"
+        #input>
+        <div class="w-full h-full flex items-center truncate cursor-pointer" (click)="open()">
+            <div *ngIf="!value" class="opacity-75">
+                {{datepickerOptions.placeholder}}
+            </div>
+
+            {{formattedDates}}
+        </div>
+
+        <div class="flex h-full items-center gap-3 pl-2">
+            <div *ngIf="datepickerOptions.clearable" class="flex h-full items-center cursor-pointer hover:text-red-500"
+                 (click)="clear()">
+                <svg class="fill-current text-lg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                    <!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. -->
+                    <path
+                        d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/>
+                </svg>
             </div>
 
             <div *ngIf="!datepickerOptions.hideCalendarIcon" class="flex h-full items-center cursor-pointer">
@@ -20,45 +52,46 @@
                 </svg>
             </div>
         </div>
+    </div>
 
-        <div *ngIf="isOpened && template && datepickerOptions"
-             class="absolute w-64 rounded left-0 mt-1 z-50 {{template.textColor}} {{template.datepickerBackground}} shadow p-3"
-             #datepicker>
-            <div class="w-full flex justify-between items-center">
-                <div class="h-full font-bold flex items-center relative">
-                    {{ date | date:'MMMM' }}
-                </div>
-                <div class="h-full flex justify-end gap-3 items-center text-xl">
-                    <svg class="fill-current cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                         (click)="prevMonth()">
-                        <path
-                            d="M11.29,12l3.54-3.54a1,1,0,0,0,0-1.41,1,1,0,0,0-1.42,0L9.17,11.29a1,1,0,0,0,0,1.42L13.41,17a1,1,0,0,0,.71.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41Z"/>
-                    </svg>
-                    <svg class="fill-current cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                         (click)="nextMonth()">
-                        <path
-                            d="M14.83,11.29,10.59,7.05a1,1,0,0,0-1.42,0,1,1,0,0,0,0,1.41L12.71,12,9.17,15.54a1,1,0,0,0,0,1.41,1,1,0,0,0,.71.29,1,1,0,0,0,.71-.29l4.24-4.24A1,1,0,0,0,14.83,11.29Z"/>
-                    </svg>
+    <div *ngIf="isOpened && template && datepickerOptions"
+         class="absolute w-64 rounded left-0 mt-1 z-50 {{template.textColor}} {{template.datepickerBackground}} shadow p-3"
+         #datepicker>
+        <div class="w-full flex justify-between items-center">
+            <div class="h-full font-bold flex items-center relative">
+                {{ date | date:'MMMM' }}
+            </div>
+            <div class="h-full flex justify-end gap-3 items-center text-xl">
+                <svg class="fill-current cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                     (click)="prevMonth()">
+                    <path
+                        d="M11.29,12l3.54-3.54a1,1,0,0,0,0-1.41,1,1,0,0,0-1.42,0L9.17,11.29a1,1,0,0,0,0,1.42L13.41,17a1,1,0,0,0,.71.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41Z"/>
+                </svg>
+                <svg class="fill-current cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                     (click)="nextMonth()">
+                    <path
+                        d="M14.83,11.29,10.59,7.05a1,1,0,0,0-1.42,0,1,1,0,0,0,0,1.41L12.71,12,9.17,15.54a1,1,0,0,0,0,1.41,1,1,0,0,0,.71.29,1,1,0,0,0,.71-.29l4.24-4.24A1,1,0,0,0,14.83,11.29Z"/>
+                </svg>
+            </div>
+        </div>
+
+        <div class="block w-full h-full text-sm">
+            <div class="w-full flex flex-wrap items-center justify-between h-12">
+                <div *ngFor="let day of weekDays" class="font-bold text-center"
+                     style="width: calc(100% / 7)">
+                    {{day}}
                 </div>
             </div>
-
-            <div class="block w-full h-full text-sm">
-                <div class="w-full flex flex-wrap items-center justify-between h-12">
-                    <div *ngFor="let day of weekDays" class="font-bold text-center"
-                         style="width: calc(100% / 7)">
-                        {{day}}
-                    </div>
-                </div>
-                <div class="w-full flex flex-wrap items-center">
-                    <div *ngFor="let day of days" style="width: calc(100% / 7)">
-                        <div
-                            class="day-unit flex justify-center rounded w-8 h-8 items-center cursor-pointer {{template.onDayHover}} {{dayClasses(day)}}"
-                            (click)="setDate(day)">
-                            {{ day.day }}
-                        </div>
+            <div class="w-full flex flex-wrap items-center">
+                <div *ngFor="let day of days" style="width: calc(100% / 7)">
+                    <div
+                        class="day-unit flex justify-center rounded w-8 h-8 items-center cursor-pointer {{template.onDayHover}} {{dayClasses(day)}}"
+                        (click)="setDate(day)">
+                        {{ day.day }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</form>
+</div>
+<ngt-validation [control]="formControl" [container]="formContainer"></ngt-validation>

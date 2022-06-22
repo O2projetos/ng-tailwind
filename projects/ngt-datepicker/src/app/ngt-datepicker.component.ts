@@ -1,15 +1,19 @@
 import {
-    AfterViewInit, ChangeDetectorRef,
+    AfterViewInit,
+    ChangeDetectorRef,
     Component,
     ElementRef,
-    EventEmitter,
+    Host,
     HostListener,
+    Injector,
     Input,
-    Output,
+    OnDestroy,
+    Optional,
+    Self,
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
-import {ControlContainer, NgForm} from "@angular/forms";
+import {ControlContainer, NgForm, Validators} from "@angular/forms";
 import {NgtBaseNgModel, NgtMakeProvider} from "../base/ngt-base-ng-model";
 import {
     Day,
@@ -34,15 +38,17 @@ import {
     isAfter,
     isBefore,
     isSameDay,
-    isSameMonth,
-    isSameYear,
-    isToday, isWithinInterval,
+    isToday,
+    isWithinInterval,
+    parse,
     setDay,
     startOfMonth,
     subDays,
     subMonths
 } from "date-fns";
 import {uuid} from "../helper/uuid";
+import {NgtStylizableDirective, NgtStylizableService} from "@o2projetos/ngt-stylizable";
+import {Subscription} from "rxjs";
 
 @Component({
     selector: 'ngt-datepicker',
@@ -56,30 +62,52 @@ import {uuid} from "../helper/uuid";
         {provide: ControlContainer, useExisting: NgForm}
     ]
 })
-export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewInit {
+export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewInit, OnDestroy {
     @ViewChild('datepicker') public datepicker: ElementRef;
     @ViewChild('input') public input: ElementRef;
 
+    // Visual
+    @Input() public label: string = "";
+    @Input() public placeholder: string = "dd/mm/yyyy";
+    @Input() public helpTitle: string;
+    @Input() public helpText: string;
+    @Input() public hideCalendarIcon: boolean = false;
+    @Input() public calendarTheme: NgtDatepickerCalendarThemeEnum;
+
+    // Behavior
     @Input() public options: NgtDatepickerOptions = defaultDatePickerOptions;
     @Input() public isOpened: boolean;
-    @Input() public inputClasses: string = 'border h-10';
     @Input() public name: string = uuid();
-    @Input() public calendarTheme: NgtDatepickerCalendarThemeEnum;
     @Input() public locale: Locale;
     @Input() public type: NgtDatepickerTypeEnum;
+    @Input() public defaultDate: Date | string;
+    @Input() public isRequired: boolean;
+    @Input() public isDisabled: boolean;
+    @Input() public clearable: boolean;
 
     public dates: Array<Date> = [];
     public days: Array<Day>;
     public weekDays: Array<string>;
 
-    // TODO Implements custom theme
-    // @Input() public calendarCustomTheme: NgtDatepickerCalendarTheme;
+    public componentReady = false;
+    public innerValue: Array<Date> = [];
+    public ngtStyle: NgtStylizableService;
+    private subscriptions: Array<Subscription> = [];
 
-    public constructor(private changeDetectorRef: ChangeDetectorRef) {
+    public constructor(
+        private injector: Injector,
+        @Self() @Optional() private ngtStylizableDirective: NgtStylizableDirective,
+        @Optional() @Host()
+        public formContainer: ControlContainer,
+        private changeDetectorRef: ChangeDetectorRef
+    ) {
         super();
+
+        this.loadNgtStylizable();
     }
 
-    @HostListener('document:click', ['$event']) public onBlur(e: MouseEvent): void {
+    @HostListener('document:click', ['$event'])
+    public onBlur(e: MouseEvent): void {
         if (!this.isOpened) {
             return;
         }
@@ -110,16 +138,28 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
         this.dates = [date];
     }
 
-    public get formattedValue(): string {
-        if (!this.value?.length) {
+    public get formattedValue(): Array<string> {
+        if (!this.innerValue?.length) {
+            return;
+        }
+
+        if (this.innerValue?.length == 1) {
+            return [format(this.date, this.datepickerOptions.formatInput)];
+        }
+
+        return this.innerValue.map(date => format(date, this.datepickerOptions.formatInput));
+    }
+
+    public get formattedDates(): string {
+        if (!this.innerValue?.length) {
             return '';
         }
 
-        if (this.value?.length == 1) {
+        if (this.innerValue?.length == 1) {
             return format(this.date, this.datepickerOptions.formatInput);
         }
 
-        return this.value.map(date => format(date, this.datepickerOptions.formatInput)).join(', ');
+        return this.innerValue.map(date => format(date, this.datepickerOptions.formatInput)).join(', ');
     }
 
     public get datepickerOptions(): NgtDatepickerOptions {
@@ -127,7 +167,9 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
             ...defaultDatePickerOptions,
             ...this.options,
             ...{locale: this.locale ?? this.options.locale},
-            ...{type: this.type ?? this.options.type}
+            ...{type: this.type ?? this.options.type},
+            ...{clearable: this.clearable ?? this.options.clearable},
+            ...{hideCalendarIcon: this.hideCalendarIcon ?? this.options.hideCalendarIcon}
         };
     }
 
@@ -136,20 +178,28 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
             this.options.calendarTemplate = NgtDatepickerCalendarThemeEnum.DEFAULT;
         }
 
-        // if (this.calendarTheme == NgtDatepickerCalendarThemeEnum.CUSTOM) {
-        //     return {...this.calendarCustomTheme, ...defaultTemplateCalendarClasses};
-        // }
-
         return {
             [NgtDatepickerCalendarThemeEnum.DEFAULT]: defaultTemplateCalendarClasses,
             [NgtDatepickerCalendarThemeEnum.NIGHT]: nightTemplateCalendarClasses,
-            // [NgtDatepickerCalendarThemeEnum.CUSTOM]: this.datepickerOptions.calendarCustomTemplate
         }[this.calendarTheme ?? this.options.calendarTemplate];
     }
 
     public ngAfterViewInit(): void {
         this.init();
         this.changeDetectorRef.detectChanges();
+    }
+
+    public ngOnDestroy() {
+        this.subscriptions.forEach(subscription => subscription.unsubscribe());
+        this.subscriptions = [];
+    }
+
+    public clear(): void {
+        this.date = new Date();
+        this.innerValue = [];
+        this.value = null;
+
+        this.days.filter(day => day.isSelected)?.forEach(day => day.isSelected = false);
     }
 
     public dayClasses(day): Object {
@@ -178,14 +228,37 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
         this.isOpened = false;
     }
 
-    public clickOutsideDatepicker(): void {
-        console.log(this.isOpened);
+    public ngOnChanges(): void {
+        this.updateValidations();
+    }
 
-        if (!this.isOpened) {
-            return;
+    public change(value: Date | Array<Date> | Array<string> | string): void {
+        if (this.componentReady) {
+            this.onValueChangeEvent.emit(this.value);
         }
 
-        this.isOpened = false;
+        if (!(value instanceof Date) && !Array.isArray(value)) {
+            return this.clear();
+        }
+
+        if (typeof value == "string") {
+            this.date = parse(value, this.datepickerOptions.formatInput, new Date());
+        }
+
+        if (value instanceof Date) {
+            this.date = value;
+        }
+
+        if (Array.isArray(value) && typeof value[0] == "string") {
+            this.dates = value.map(val => parse(val, this.datepickerOptions.formatInput, new Date()));
+        }
+
+        if (Array.isArray(value) && value[0] instanceof Date) {
+            this.dates = <Array<Date>>value;
+        }
+
+        this.innerValue = this.dates;
+        this.value = this.formattedValue;
     }
 
     public nextMonth(): void {
@@ -203,11 +276,13 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
             return;
         }
 
-        this.dates = !this.value || this.dates?.length == 2 || this.datepickerOptions.type == NgtDatepickerTypeEnum.NORMAL
+        this.dates = !this.innerValue || this.dates?.length == 2 || this.datepickerOptions.type == NgtDatepickerTypeEnum.NORMAL
             ? [day.date]
             : this.getSortedDateArray([...this.dates, ...[day.date]]);
 
-        this.value = this.dates;
+        this.innerValue = this.dates;
+
+        this.value = this.formattedValue;
 
         this.initDays();
 
@@ -216,7 +291,15 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
         }
     }
 
+    public hasErrors(): boolean {
+        return this.formControl?.errors && (this.formControl?.dirty || (this.formContainer && this.formContainer['submitted']));
+    }
+
     private getSortedDateArray(dates: Array<Date>): Array<Date> {
+        if (dates?.length == 1) {
+            return dates;
+        }
+
         return dates[0] > dates[1] ? [dates[1], dates[0]] : [dates[0], dates[1]];
     }
 
@@ -233,7 +316,32 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
     }
 
     private init(): void {
-        this.date = new Date();
+        console.log(this.formContainer);
+        console.log(this.formContainer.control);
+        console.log(this.name);
+        console.log(this.formControl = this.formContainer.control.get(this.name));
+
+        if (this.formContainer && this.formContainer.control && (this.formControl = this.formContainer.control.get(this.name))) {
+            if (this.defaultDate && !this.value) {
+                this.date = this.defaultDate instanceof Date ? this.defaultDate : new Date(this.defaultDate);
+                this.innerValue = [this.date];
+                this.value = this.formattedValue;
+            } else {
+                this.date = new Date();
+                this.innerValue = [];
+                this.value = null;
+            }
+
+            this.updateValidations();
+
+            if (this.value) {
+                this.formControl.markAsDirty();
+            } else {
+                this.formControl.markAsPristine();
+            }
+        }
+
+        this.componentReady = true;
 
         this.initDayNames();
         this.initDays();
@@ -278,15 +386,15 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
     }
 
     private isDaySelected(date: Date): boolean {
-        if (!this.value) {
+        if (!this.innerValue) {
             return;
         }
 
-        if (this.value?.length != 2) {
+        if (this.innerValue?.length != 2) {
             return isSameDay(date, this.date);
         }
 
-        return isWithinInterval(date, {start: this.value[0], end: this.value[1]});
+        return isWithinInterval(date, {start: this.innerValue[0], end: this.innerValue[1]});
     }
 
     private isDateSelectable(date: Date): boolean {
@@ -295,5 +403,43 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
         }
 
         return !(this.options.maxDate && isAfter(date, this.options.maxDate));
+    }
+
+    private updateValidations() {
+        if (!this.formControl) {
+            return;
+        }
+
+        let syncValidators = [];
+
+        if (this.isRequired) {
+            syncValidators.push(Validators.required);
+        }
+
+        setTimeout(() => {
+            this.formControl.setValidators(syncValidators);
+            this.formControl.updateValueAndValidity();
+        });
+    }
+
+    private loadNgtStylizable(): void {
+        if (this.ngtStylizableDirective) {
+            this.ngtStyle = this.ngtStylizableDirective.getNgtStylizableService();
+        } else {
+            this.ngtStyle = new NgtStylizableService();
+        }
+
+        this.ngtStyle.load(this.injector, 'NgtDatepicker', {
+            h: 'h-10',
+            border: 'border',
+            text: 'text-base',
+            rounded: 'rounded',
+            fontCase: '',
+            color: {
+                text: 'text-gray-800',
+                bg: 'bg-gray-200',
+                border: ''
+            }
+        });
     }
 }
