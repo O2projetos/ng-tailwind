@@ -34,6 +34,20 @@
               "dist/ngt-demo/ngt-demo",
               "dist/ngt-demo"
             ],
+            "ngt-dropdown": [
+              "dist/ngt-dropdown/ngt-dropdown",
+              "dist/ngt-dropdown"
+            ],
+            "ngt-form": [
+              "dist/ngt-form/ngt-form",
+              "dist/ngt-form"
+            ],
+            "ngt-helper": [
+              "dist/ngt-helper/ngt-helper",
+              "dist/ngt-helper",
+              "dist/ngt-helper/ngt-helper",
+              "dist/ngt-helper"
+            ],
             "ngt-http-coloquent": [
                 "dist/ngt-http-coloquent"
             ],
@@ -47,6 +61,10 @@
             "ngt-svg": [
               "dist/ngt-svg/ngt-svg",
               "dist/ngt-svg"
+            ],
+            "ngt-validation": [
+              "dist/ngt-validation/ngt-validation",
+              "dist/ngt-validation"
             ]
         }
     },

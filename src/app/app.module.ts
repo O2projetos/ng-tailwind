@@ -1,12 +1,7 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {
-    NgtAttachmentHttpService,
-    NgtHttpFormService,
-    NgtHttpService,
-    NgtTranslateService
-} from 'projects/ng-tailwind/src/public-api';
+import {NgtAttachmentHttpService, NgtHttpService, NgtTranslateService} from 'projects/ng-tailwind/src/public-api';
 
 import {NgtHttpFormTestService} from './services/ngt-http-form-test.service';
 import {AppRoutingModule} from './app-routing.module';
@@ -17,6 +12,10 @@ import {NgtHttpTest} from './services/ngt-http-test.service';
 import {NgtTranslateDefaultService} from './services/ngt-translate-default.service';
 import {NgtStylizableModule} from "@o2projetos/ngt-stylizable";
 import {NgtSvgModule} from "@o2projetos/ngt-svg";
+import {NgtDatepickerModule} from "@o2projetos/ngt-datepicker";
+import {FormsModule} from "@angular/forms";
+import {NgtValidationTranslateProvider, NgtValidationTranslateService} from "ngt-validation";
+import {NgtFormModule, NgtHttpFormService} from "@o2projetos/ngt-form";
 
 @NgModule({
     declarations: [
@@ -28,7 +27,10 @@ import {NgtSvgModule} from "@o2projetos/ngt-svg";
         AppRoutingModule,
         HomeModule,
         NgtSvgModule,
-        NgtStylizableModule
+        NgtStylizableModule,
+        NgtDatepickerModule,
+        NgtFormModule,
+        FormsModule
     ],
     providers: [
         {
@@ -46,6 +48,10 @@ import {NgtSvgModule} from "@o2projetos/ngt-svg";
         {
             provide: NgtTranslateService,
             useClass: NgtTranslateDefaultService
+        },
+        {
+            provide: NgtValidationTranslateService,
+            useClass: NgtValidationTranslateProvider
         },
         {
             provide: 'NgtThStyle',

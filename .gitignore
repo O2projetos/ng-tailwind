@@ -47,3 +47,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+/projects/ngt-svg/node_modules/
+/projects/ngt-datepicker/node_modules/@o2projetos/ngt-helper/
+/projects/ngt-helper/node_modules/@o2projetos/ngt-stylizable/
+/projects/ngt-datepicker/node_modules/
