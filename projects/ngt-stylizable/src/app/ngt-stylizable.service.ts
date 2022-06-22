@@ -29,6 +29,7 @@ export class NgtStylizableService {
     private _justifyContent: string;
     private _cursor: string;
     private _fontCase: string;
+    private _custom: string;
 
     public get color() {
         return this._color;
@@ -279,6 +280,14 @@ export class NgtStylizableService {
 
     public set fontCase(fontCase: string) {
         this._fontCase = this.getQualifiedValue('', fontCase);
+    }
+
+    public get custom(): string {
+        return this._custom;
+    }
+
+    public set custom(custom: string) {
+        this._custom = custom;
     }
 
     public load(injector: Injector, style: string, defaultValue = null, inheritanceStyles = []) {

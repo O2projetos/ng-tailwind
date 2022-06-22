@@ -281,4 +281,9 @@ export class NgtStylizableDirective {
     public set fontCase(fontCase: string) {
         this.ngtStylizableService.fontCase = fontCase;
     }
+
+    @Input('custom')
+    public set custom(custom: string) {
+        this.ngtStylizableService.custom = custom;
+    }
 }
