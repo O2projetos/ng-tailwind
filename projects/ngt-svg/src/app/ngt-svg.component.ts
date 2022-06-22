@@ -16,8 +16,8 @@ import {NgtStylizableDirective, NgtStylizableService} from "@o2projetos/ngt-styl
 
 @Component({
     selector: 'ngt-svg',
-    templateUrl: 'ngt-svg.component.html',
-    styleUrls: ['ngt-svg.component.css'],
+    templateUrl: './ngt-svg.component.html',
+    styleUrls: ['./ngt-svg.component.css'],
     encapsulation: ViewEncapsulation.None,
     host: {
         class: 'flex justify-center'
