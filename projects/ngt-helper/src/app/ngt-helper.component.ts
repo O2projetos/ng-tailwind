@@ -1,5 +1,5 @@
 import {Component, ElementRef, Injector, Input, Optional, Self, ViewChild, ViewEncapsulation} from '@angular/core';
-import {NgtDropdownComponent} from "ngt-dropdown";
+import {NgtDropdownComponent} from "@o2projetos/ngt-dropdown";
 import {NgtStylizableDirective, NgtStylizableService} from "@o2projetos/ngt-stylizable";
 
 @Component({
