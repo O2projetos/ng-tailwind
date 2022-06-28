@@ -169,6 +169,7 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
             ...{locale: this.locale ?? this.options.locale},
             ...{type: this.type ?? this.options.type},
             ...{clearable: this.clearable ?? this.options.clearable},
+            ...{placeholder: this.placeholder ?? this.options.placeholder},
             ...{hideCalendarIcon: this.hideCalendarIcon ?? this.options.hideCalendarIcon}
         };
     }
@@ -199,7 +200,7 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
         this.innerValue = [];
         this.value = null;
 
-        this.days.filter(day => day.isSelected)?.forEach(day => day.isSelected = false);
+        this.days?.filter(day => day.isSelected)?.forEach(day => day.isSelected = false);
     }
 
     public dayClasses(day): Object {
@@ -316,11 +317,6 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
     }
 
     private init(): void {
-        console.log(this.formContainer);
-        console.log(this.formContainer.control);
-        console.log(this.name);
-        console.log(this.formControl = this.formContainer.control.get(this.name));
-
         if (this.formContainer && this.formContainer.control && (this.formControl = this.formContainer.control.get(this.name))) {
             if (this.defaultDate && !this.value) {
                 this.date = this.defaultDate instanceof Date ? this.defaultDate : new Date(this.defaultDate);
