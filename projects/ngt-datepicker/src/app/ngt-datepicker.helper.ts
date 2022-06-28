@@ -48,6 +48,7 @@ export interface NgtDatepickerOptions {
     calendarCustomTemplate?: NgtDatepickerCalendarTheme | null;
     closeOnSelect?: boolean;
     formatTitle?: string;
+    formatNgModel?: string;
     formatInput?: string;
     placeholder?: string;
     // enableTime?: boolean;
@@ -74,6 +75,7 @@ export const defaultDatePickerOptions: NgtDatepickerOptions = {
     calendarTemplate: NgtDatepickerCalendarThemeEnum.DEFAULT,
     calendarCustomTemplate: null,
     closeOnSelect: true,
+    formatNgModel: 'yyyy-MM-dd',
     formatTitle: 'EEEEE',
     formatInput: 'dd/MM/yyyy',
     placeholder: 'dd/MM/yyyy hh:ii',

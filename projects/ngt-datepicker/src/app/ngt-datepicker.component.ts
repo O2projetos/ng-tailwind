@@ -96,7 +96,8 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
 
     public constructor(
         private injector: Injector,
-        @Self() @Optional() private ngtStylizableDirective: NgtStylizableDirective,
+        @Self() @Optional()
+        private ngtStylizableDirective: NgtStylizableDirective,
         @Optional() @Host()
         public formContainer: ControlContainer,
         private changeDetectorRef: ChangeDetectorRef
@@ -130,33 +131,35 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
         }
     }
 
-    public get date(): Date | null {
-        return this.dates[0];
+    public get date(): Date {
+        return this.dates[0] ?? new Date();
     }
 
     public set date(date: Date) {
         this.dates = [date];
     }
 
-    public get formattedValue(): Array<string> {
+    public get formattedValue(): Array<string> | string {
+        if (!this.innerValue?.length) {
+            return this.type == NgtDatepickerTypeEnum.RANGE ? [] : null;
+        }
+
+        if (this.innerValue?.length == 1) {
+            return this.type == NgtDatepickerTypeEnum.RANGE
+                ? [format(this.innerValue[0], this.datepickerOptions.formatNgModel)]
+                : format(this.innerValue[0], this.datepickerOptions.formatNgModel);
+        }
+
+        return this.innerValue.map(date => format(date, this.datepickerOptions.formatNgModel));
+    }
+
+    public get formattedDates(): string {
         if (!this.innerValue?.length) {
             return;
         }
 
         if (this.innerValue?.length == 1) {
-            return [format(this.date, this.datepickerOptions.formatInput)];
-        }
-
-        return this.innerValue.map(date => format(date, this.datepickerOptions.formatInput));
-    }
-
-    public get formattedDates(): string {
-        if (!this.innerValue?.length) {
-            return '';
-        }
-
-        if (this.innerValue?.length == 1) {
-            return format(this.date, this.datepickerOptions.formatInput);
+            return format(this.innerValue[0], this.datepickerOptions.formatInput);
         }
 
         return this.innerValue.map(date => format(date, this.datepickerOptions.formatInput)).join(', ');
@@ -196,9 +199,13 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
     }
 
     public clear(): void {
-        this.date = new Date();
         this.innerValue = [];
-        this.value = null;
+
+        if (this.type == NgtDatepickerTypeEnum.RANGE) {
+            this.value = [];
+        } else {
+            this.value = null;
+        }
 
         this.days?.filter(day => day.isSelected)?.forEach(day => day.isSelected = false);
     }
@@ -230,36 +237,37 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
     }
 
     public ngOnChanges(): void {
-        this.updateValidations();
+        // this.updateValidations();
     }
 
-    public change(value: Date | Array<Date> | Array<string> | string): void {
+    public change(value?: Date | Array<Date> | Array<string> | string): void {
         if (this.componentReady) {
             this.onValueChangeEvent.emit(this.value);
         }
 
-        if (!(value instanceof Date) && !Array.isArray(value)) {
+        if (!(value instanceof Date) && !(typeof value == "string") && !Array.isArray(value) && value !== null && value !== undefined) {
             return this.clear();
         }
 
-        if (typeof value == "string") {
-            this.date = parse(value, this.datepickerOptions.formatInput, new Date());
+        if (value && typeof value == "string") {
+            this.date = parse(value, this.datepickerOptions.formatNgModel, new Date());
         }
 
-        if (value instanceof Date) {
+        if (value && value instanceof Date) {
             this.date = value;
         }
 
-        if (Array.isArray(value) && typeof value[0] == "string") {
-            this.dates = value.map(val => parse(val, this.datepickerOptions.formatInput, new Date()));
+        if (value && Array.isArray(value) && typeof value[0] == "string") {
+            this.dates = value.map(val => parse(val, this.datepickerOptions.formatNgModel, new Date()));
         }
 
-        if (Array.isArray(value) && value[0] instanceof Date) {
+        if (value && Array.isArray(value) && value[0] instanceof Date) {
             this.dates = <Array<Date>>value;
         }
 
         this.innerValue = this.dates;
         this.value = this.formattedValue;
+        this.initDays();
     }
 
     public nextMonth(): void {
@@ -282,7 +290,6 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
             : this.getSortedDateArray([...this.dates, ...[day.date]]);
 
         this.innerValue = this.dates;
-
         this.value = this.formattedValue;
 
         this.initDays();
@@ -307,13 +314,12 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
     private canCloseAfterSelectDate(): boolean {
         return (
             this.datepickerOptions.type == NgtDatepickerTypeEnum.NORMAL
-                && this.datepickerOptions.closeOnSelect
-        )
-            || (
-                this.datepickerOptions.type == NgtDatepickerTypeEnum.RANGE
-                && this.datepickerOptions.closeOnSelect
-                && this.dates.length == 2
-            );
+            && this.datepickerOptions.closeOnSelect
+        ) || (
+            this.datepickerOptions.type == NgtDatepickerTypeEnum.RANGE
+            && this.datepickerOptions.closeOnSelect
+            && this.dates.length == 2
+        );
     }
 
     private init(): void {
@@ -321,22 +327,18 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
             if (this.defaultDate && !this.value) {
                 this.date = this.defaultDate instanceof Date ? this.defaultDate : new Date(this.defaultDate);
                 this.innerValue = [this.date];
-                this.value = this.formattedValue;
             } else {
-                this.date = new Date();
                 this.innerValue = [];
-                this.value = null;
             }
 
-            this.updateValidations();
+            this.value = this.formattedValue;
+            // this.updateValidations();
 
-            console.log(this.value);
-
-            if (this.value) {
-                this.formControl.markAsDirty();
-            } else {
-                this.formControl.markAsPristine();
-            }
+            // if (this.value) {
+            //     this.formControl.markAsDirty();
+            // } else {
+            //     this.formControl.markAsPristine();
+            // }
         }
 
         this.componentReady = true;
@@ -346,7 +348,7 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
     }
 
     private initDays(): void {
-        const date = this.date || new Date();
+        const date = this.date;
         const [start, end] = [startOfMonth(date), endOfMonth(date)];
 
         this.days = eachDayOfInterval({start, end}).map((d: Date) => this.generateDay(d));
@@ -389,7 +391,7 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
         }
 
         if (this.innerValue?.length != 2) {
-            return isSameDay(date, this.date);
+            return isSameDay(date, this.innerValue[0]);
         }
 
         return isWithinInterval(date, {start: this.innerValue[0], end: this.innerValue[1]});
