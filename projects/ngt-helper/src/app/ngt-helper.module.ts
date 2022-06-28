@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {NgtHelperComponent} from './ngt-helper.component';
 import {CommonModule} from "@angular/common";
 import {NgtDropdownModule} from "ngt-dropdown";
-import {NgtSvgModule} from "ngt-svg";
+import {NgtSvgModule} from "@o2projetos/ngt-svg";
 
 @NgModule({
     declarations: [
