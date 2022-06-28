@@ -330,6 +330,8 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
 
             this.updateValidations();
 
+            console.log(this.value);
+
             if (this.value) {
                 this.formControl.markAsDirty();
             } else {
