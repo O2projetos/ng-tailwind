@@ -14,7 +14,6 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {ControlContainer, NgForm, Validators} from "@angular/forms";
-import {NgtBaseNgModel, NgtMakeProvider} from "../base/ngt-base-ng-model";
 import {
     Day,
     defaultDatePickerOptions,
@@ -49,6 +48,7 @@ import {
 import {uuid} from "../helper/uuid";
 import {NgtStylizableDirective, NgtStylizableService} from "@o2projetos/ngt-stylizable";
 import {Subscription} from "rxjs";
+import {NgtBaseNgModel, NgtMakeProvider} from "@o2projetos/ngt-form";
 
 @Component({
     selector: 'ngt-datepicker',
