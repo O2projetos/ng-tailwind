@@ -1,11 +1,3 @@
-.single-attachment {
-    border: none !important;
-    margin: unset !important;
-    overflow: hidden !important;
-    display: flex !important;
-    justify-content: center !important;
-}
-
 .image-preview-default-class {
     margin: unset !important;
 }
@@ -17,9 +9,6 @@ custom-dropzone-preview {
 }
 
 .div-loader {
-    width: 4rem;
-    height: 4rem;
-    border: 3px solid #a0aec038;
     border-top-color: #a0aec0;
     border-radius: 50%;
     animation: spin 1s linear infinite;

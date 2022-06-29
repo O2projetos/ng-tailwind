@@ -16,17 +16,17 @@ import {
     ViewChild,
     ViewEncapsulation,
 } from '@angular/core';
-import { ControlContainer, NgForm, Validators } from '@angular/forms';
-import { NgxDropzoneChangeEvent, NgxDropzoneComponent } from 'ngx-dropzone';
-import { forkJoin, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {ControlContainer, NgForm, Validators} from '@angular/forms';
+import {NgxDropzoneChangeEvent, NgxDropzoneComponent} from 'ngx-dropzone';
+import {forkJoin, Subscription} from 'rxjs';
+import {map} from 'rxjs/operators';
 import Viewer from 'viewerjs';
 
-import { NgtBaseNgModel, NgtMakeProvider } from '../../base/ngt-base-ng-model';
-import { getEnumFromString } from '../../helpers/enum/enum';
-import { NgtAttachmentHttpService } from '../../services/http/ngt-attachment-http.service';
-import { NgtStylizableService } from '../../services/ngt-stylizable/ngt-stylizable.service';
-import { NgtDropzoneFileViewerComponent } from './ngt-dropzone-file-viewer/ngt-dropzone-file-viewer.component';
+import {NgtBaseNgModel, NgtMakeProvider} from '../../base/ngt-base-ng-model';
+import {getEnumFromString} from '../../helpers/enum/enum';
+import {NgtAttachmentHttpService} from '../../services/http/ngt-attachment-http.service';
+import {NgtStylizableService} from '../../services/ngt-stylizable/ngt-stylizable.service';
+import {NgtDropzoneFileViewerComponent} from './ngt-dropzone-file-viewer/ngt-dropzone-file-viewer.component';
 
 export interface NgtDropzoneFile {
     downloadUrl: string;
@@ -114,6 +114,7 @@ export class NgtDropzoneComponent extends NgtBaseNgModel implements OnInit, OnDe
     public componentReady = false;
     public loading: boolean = false;
     public ngtDropzoneLoaderStyle: NgtStylizableService;
+    public ngtDropzoneStyle: NgtStylizableService;
     public imageViewerOptions: any = {
         navbar: true,
         toolbar: {
@@ -143,8 +144,19 @@ export class NgtDropzoneComponent extends NgtBaseNgModel implements OnInit, OnDe
 
         this.ngtDropzoneLoaderStyle.load(this.injector, 'NgtDropzoneLoader', {
             h: 'h-8',
+            w: 'w-8',
+            border: 'border-2',
             color: {
-                text: 'text-gray-600'
+                border: 'border-gray-600'
+            }
+        });
+
+        this.ngtDropzoneLoaderStyle.load(this.injector, 'NgtDropzone', {
+            h: 'h-8',
+            w: 'w-8',
+            border: 'border-2',
+            color: {
+                border: 'border-gray-600'
             }
         });
     }
