@@ -19,3 +19,8 @@ custom-dropzone-preview {
         transform: rotate(360deg);
     }
 }
+
+.single-attachment {
+    display: flex !important;
+    justify-content: center !important;
+}

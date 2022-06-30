@@ -114,7 +114,6 @@ export class NgtDropzoneComponent extends NgtBaseNgModel implements OnInit, OnDe
     public componentReady = false;
     public loading: boolean = false;
     public ngtDropzoneLoaderStyle: NgtStylizableService;
-    public ngtDropzoneStyle: NgtStylizableService;
     public imageViewerOptions: any = {
         navbar: true,
         toolbar: {
@@ -143,15 +142,6 @@ export class NgtDropzoneComponent extends NgtBaseNgModel implements OnInit, OnDe
         this.ngtDropzoneLoaderStyle = new NgtStylizableService();
 
         this.ngtDropzoneLoaderStyle.load(this.injector, 'NgtDropzoneLoader', {
-            h: 'h-8',
-            w: 'w-8',
-            border: 'border-2',
-            color: {
-                border: 'border-gray-600'
-            }
-        });
-
-        this.ngtDropzoneLoaderStyle.load(this.injector, 'NgtDropzone', {
             h: 'h-8',
             w: 'w-8',
             border: 'border-2',
