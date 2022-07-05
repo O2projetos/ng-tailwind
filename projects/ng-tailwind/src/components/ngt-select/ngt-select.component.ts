@@ -19,19 +19,19 @@ import {
     ViewChild,
     ViewEncapsulation,
 } from '@angular/core';
-import { AbstractControl, ControlContainer, NgForm } from '@angular/forms';
-import { NgOption, NgSelectComponent } from '@ng-select/ng-select';
-import { Observable, Observer, Subject, Subscription } from 'rxjs';
+import {AbstractControl, ControlContainer, NgForm} from '@angular/forms';
+import {NgOption, NgSelectComponent} from '@ng-select/ng-select';
+import {Observable, Observer, Subject, Subscription} from 'rxjs';
 
-import { NgtBaseNgModel, NgtMakeProvider } from '../../base/ngt-base-ng-model';
-import { NgtStylizableDirective } from '../../directives/ngt-stylizable/ngt-stylizable.directive';
-import { getEnumFromString } from '../../helpers/enum/enum';
-import { uuid } from '../../helpers/uuid';
-import { NgtHttpResponse, NgtHttpService } from '../../services/http/ngt-http.service';
-import { NgtTranslateService } from '../../services/http/ngt-translate.service';
-import { NgtStylizableService } from '../../services/ngt-stylizable/ngt-stylizable.service';
-import { NgtFormComponent } from '../ngt-form/ngt-form.component';
-import { NgtSelectHeaderTmp, NgtSelectOptionSelectedTmp, NgtSelectOptionTmp } from './ngt-select.directive';
+import {NgtBaseNgModel, NgtMakeProvider} from '../../base/ngt-base-ng-model';
+import {NgtStylizableDirective} from '../../directives/ngt-stylizable/ngt-stylizable.directive';
+import {getEnumFromString} from '../../helpers/enum/enum';
+import {uuid} from '../../helpers/uuid';
+import {NgtHttpResponse, NgtHttpService} from '../../services/http/ngt-http.service';
+import {NgtTranslateService} from '../../services/http/ngt-translate.service';
+import {NgtStylizableService} from '../../services/ngt-stylizable/ngt-stylizable.service';
+import {NgtFormComponent} from '../ngt-form/ngt-form.component';
+import {NgtSelectHeaderTmp, NgtSelectOptionSelectedTmp, NgtSelectOptionTmp} from './ngt-select.directive';
 
 @Component({
     selector: 'ngt-select',
@@ -69,6 +69,7 @@ export class NgtSelectComponent extends NgtBaseNgModel implements OnChanges, OnD
     @Input() public createText: string = '';
     @Input() public labelForId: string = '';
     @Input() public dropdownPanelMinHeight: NgtSelectDropdownPanelHeight = NgtSelectDropdownPanelHeight.AUTO;
+    @Input() public bordered: boolean = true;
 
     /** Behavior */
     @Input() public name: string;
@@ -370,7 +371,9 @@ export class NgtSelectComponent extends NgtBaseNgModel implements OnChanges, OnD
     public getSelectClass() {
         let selectClass = this.dropdownPanelMinHeight ? 'ng-select-dropdown-panel-' + this.dropdownPanelMinHeight : 'ng-select-dropdown-panel-auto';
 
-        if (this.isDisabled) {
+        if (!this.bordered) {
+            selectClass += ' select-border-none';
+        } else if (this.isDisabled) {
             selectClass += ' select-border-disabled';
         } else if (this.formControl && this.formControl.errors && (this.formControl.dirty || (this.formContainer && this.formContainer['submitted']))) {
             selectClass += ' select-border-error';
