@@ -16,19 +16,19 @@ import {
     SkipSelf,
     ViewChild,
 } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, ControlContainer, NgForm, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import {AbstractControl, AsyncValidatorFn, ControlContainer, NgForm, Validators} from '@angular/forms';
+import {Subscription} from 'rxjs';
 
-import { NgtBaseNgModel, NgtMakeProvider } from '../../base/ngt-base-ng-model';
-import { NgtStylizableDirective } from '../../directives/ngt-stylizable/ngt-stylizable.directive';
+import {NgtBaseNgModel, NgtMakeProvider} from '../../base/ngt-base-ng-model';
+import {NgtStylizableDirective} from '../../directives/ngt-stylizable/ngt-stylizable.directive';
 import {
     NgtHttpFindExistingResourceInterface,
     NgtHttpFindExistingResourceResponse,
     NgtHttpResourceService,
 } from '../../services/http/ngt-http-resource.service';
-import { NgtHttpValidationResponse, NgtHttpValidationService } from '../../services/http/ngt-http-validation.service';
-import { NgtStylizableService } from '../../services/ngt-stylizable/ngt-stylizable.service';
-import { NgtFormComponent } from '../ngt-form/ngt-form.component';
+import {NgtHttpValidationResponse, NgtHttpValidationService} from '../../services/http/ngt-http-validation.service';
+import {NgtStylizableService} from '../../services/ngt-stylizable/ngt-stylizable.service';
+import {NgtFormComponent} from '../ngt-form/ngt-form.component';
 
 let Inputmask = require('inputmask');
 
@@ -153,6 +153,7 @@ export class NgtInputComponent extends NgtBaseNgModel implements OnInit, OnDestr
             rounded: 'rounded',
             text: 'text-sm',
             fontCase: '',
+            border: 'border',
             color: {
                 border: 'border-gray-400 focus:border-gray-700',
                 bg: 'bg-bg-white focus:bg-white',
