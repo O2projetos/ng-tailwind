@@ -1,7 +1,13 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {NgtAttachmentHttpService, NgtHttpService, NgtTranslateService} from 'projects/ng-tailwind/src/public-api';
+import {
+    NgtAttachmentHttpService,
+    NgtDateModule,
+    NgtHttpService,
+    NgtSelectModule,
+    NgtTranslateService
+} from 'projects/ng-tailwind/src/public-api';
 
 import {NgtHttpFormTestService} from './services/ngt-http-form-test.service';
 import {AppRoutingModule} from './app-routing.module';
@@ -14,7 +20,7 @@ import {NgtStylizableModule} from "@o2projetos/ngt-stylizable";
 import {NgtSvgModule} from "@o2projetos/ngt-svg";
 import {NgtDatepickerModule} from "@o2projetos/ngt-datepicker";
 import {FormsModule} from "@angular/forms";
-import {NgtValidationTranslateProvider, NgtValidationTranslateService} from "ngt-validation";
+import {NgtValidationTranslateProvider, NgtValidationTranslateService} from "@o2projetos/ngt-validation";
 import {NgtFormModule, NgtHttpFormService} from "@o2projetos/ngt-form";
 
 @NgModule({
@@ -28,9 +34,11 @@ import {NgtFormModule, NgtHttpFormService} from "@o2projetos/ngt-form";
         HomeModule,
         NgtSvgModule,
         NgtStylizableModule,
+        NgtDateModule,
         NgtDatepickerModule,
         NgtFormModule,
-        FormsModule
+        FormsModule,
+        NgtSelectModule
     ],
     providers: [
         {
@@ -145,6 +153,33 @@ import {NgtFormModule, NgtHttpFormService} from "@o2projetos/ngt-form";
                 w: 'w-10'
             }
         },
+        {
+            provide: 'NgtDatepickerInputStyle',
+            useValue: {
+                h: 'h-12',
+                text: 'text-xs',
+                border: 'border',
+                fontCase: 'uppercase font-semibold',
+                rounded: 'rounded',
+                color: {
+                    text: 'text-gray-600',
+                    border: 'border-gray-400'
+                }
+            }
+        },
+        {
+            provide: 'NgtDatepickerStyle',
+            useValue: {
+                text: 'text-base',
+                fontCase: '',
+                border: 'border',
+                color: {
+                    text: 'text-gray-800',
+                    bg: 'bg-white',
+                    border: 'border-gray-300'
+                }
+            }
+        }
     ],
     bootstrap: [AppComponent]
 })

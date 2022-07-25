@@ -1,4 +1,4 @@
-<label class="flex mb-2 {{ngtStyle.compile(['text', 'color.text', 'fontCase'])}}"
+<label class="flex mb-2 {{ngtDatepickerInputStyle.compile(['text', 'color.text', 'fontCase'])}}"
        *ngIf="label">
     {{ label }}:
 
@@ -14,20 +14,20 @@
     </ngt-helper>
 </label>
 
-<div *ngIf="isDisabled" class="w-full px-4 py-3 rounded appearance-none block border bg-gray-100 border-gray-400">
+<div *ngIf="isDisabled" class="w-full px-4 py-3 rounded appearance-none block border bg-gray-100 border-gray-300">
     <div *ngIf="!value?.length" class="opacity-75">
         {{datepickerOptions.placeholder}}
     </div>
     {{formattedDates}}
 </div>
 
-<div *ngIf="!isDisabled" class="relative z-20 w-full inline-block box-border">
+<div *ngIf="!isDisabled" class="relative w-full inline-block box-border">
     <input type="hidden" [ngModel]="value" [value]="value" [name]="name">
 
     <div
-        class="flex items-center justify-between w-full px-2 {{hasErrors() ? 'border-error' : 'border-normal'}} {{ngtStyle.compile(['h', 'border', 'rounded', 'color.border'])}}"
+        class="flex items-center justify-between w-full {{hasErrors() ? 'border-error' : 'border-normal'}} {{ngtDatepickerInputStyle.compile(['h', 'border', 'rounded', 'color.border'])}}"
         #input>
-        <div class="w-full h-full flex items-center truncate cursor-pointer" (click)="open()">
+        <div class="w-full h-full flex items-center truncate cursor-pointer px-2" (click)="open()">
             <div *ngIf="!value" class="opacity-75">
                 {{datepickerOptions.placeholder}}
             </div>
@@ -35,7 +35,8 @@
             {{formattedDates}}
         </div>
 
-        <div class="flex h-full items-center gap-3 pl-2">
+        <div *ngIf="datepickerOptions.clearable || datepickerOptions.hideCalendarIcon"
+             class="flex h-full items-center gap-3 pl-2">
             <div *ngIf="datepickerOptions.clearable" class="flex h-full items-center cursor-pointer hover:text-red-500"
                  (click)="clear()">
                 <svg class="fill-current text-lg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
@@ -45,7 +46,8 @@
                 </svg>
             </div>
 
-            <div *ngIf="!datepickerOptions.hideCalendarIcon" class="flex h-full items-center cursor-pointer">
+            <div *ngIf="!datepickerOptions.hideCalendarIcon" class="flex h-full items-center cursor-pointer"
+                 (click)="open()">
                 <svg class="fill-current text-lg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path
                         d="M19,4H17V3a1,1,0,0,0-2,0V4H9V3A1,1,0,0,0,7,3V4H5A3,3,0,0,0,2,7V19a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V7A3,3,0,0,0,19,4Zm1,15a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V12H20Zm0-9H4V7A1,1,0,0,1,5,6H7V7A1,1,0,0,0,9,7V6h6V7a1,1,0,0,0,2,0V6h2a1,1,0,0,1,1,1Z"/>
@@ -55,7 +57,7 @@
     </div>
 
     <div *ngIf="isOpened && template && datepickerOptions"
-         class="absolute w-64 rounded left-0 mt-1 z-50 {{template.textColor}} {{template.datepickerBackground}} shadow p-3"
+         class="{{ngtDatepickerStyle.compile(['text', 'color.text', 'color.bg', 'fontCase', 'border', 'color.border'])}}"
          #datepicker>
         <div class="w-full flex justify-between items-center">
             <div class="h-full font-bold flex items-center relative capitalize">
@@ -85,7 +87,7 @@
             <div class="w-full flex flex-wrap items-center">
                 <div *ngFor="let day of days" style="width: calc(100% / 7)">
                     <div
-                        class="day-unit flex justify-center rounded w-8 h-8 items-center cursor-pointer {{template.onDayHover}} {{dayClasses(day)}}"
+                        class="day-unit flex justify-center p-2 rounded w-8 h-8 items-center cursor-pointer {{template.onDayHover}} {{dayClasses(day)}}"
                         (click)="setDate(day)">
                         {{ day.day }}
                     </div>

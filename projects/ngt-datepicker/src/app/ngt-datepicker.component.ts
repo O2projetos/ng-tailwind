@@ -91,7 +91,8 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
 
     public componentReady = false;
     public innerValue: Array<Date> = [];
-    public ngtStyle: NgtStylizableService;
+    public ngtDatepickerInputStyle: NgtStylizableService;
+    public ngtDatepickerStyle: NgtStylizableService;
     private subscriptions: Array<Subscription> = [];
 
     public constructor(
@@ -424,12 +425,25 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
 
     private loadNgtStylizable(): void {
         if (this.ngtStylizableDirective) {
-            this.ngtStyle = this.ngtStylizableDirective.getNgtStylizableService();
+            this.ngtDatepickerInputStyle = this.ngtStylizableDirective.getNgtStylizableService();
+            this.ngtDatepickerStyle = this.ngtStylizableDirective.getNgtStylizableService();
         } else {
-            this.ngtStyle = new NgtStylizableService();
+            this.ngtDatepickerInputStyle = new NgtStylizableService();
+            this.ngtDatepickerStyle = new NgtStylizableService();
         }
 
-        this.ngtStyle.load(this.injector, 'NgtDatepicker', {
+        this.ngtDatepickerStyle.load(this.injector, 'NgtDatepicker', {
+            text: 'text-base',
+            fontCase: '',
+            border: 'border',
+            color: {
+                text: 'text-gray-800',
+                bg: 'bg-gray-200',
+                border: 'border-gray-300'
+            }
+        });
+
+        this.ngtDatepickerInputStyle.load(this.injector, 'NgtDatepickerInput', {
             h: 'h-10',
             border: 'border',
             text: 'text-base',
