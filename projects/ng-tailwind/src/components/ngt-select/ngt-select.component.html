@@ -18,7 +18,7 @@
         [disabled]='isDisabled || isReadonly' [clearable]="!!(clearable && hasSelectedValue())" [closeOnSelect]="closeOnSelect"
         [trackByFn]="trackBy" [labelForId]="labelForId" [clearSearchOnAdd]="clearSearchOnAdd"
         [typeToSearchText]="typeToSearchText || ngtTranslateService.ngtSelectTypeToSearchText"
-           [searchFn]=""
+           (search)="search($event)"
         [placeholder]="placeholder || ngtTranslateService.ngtSelectPlaceholder" [dropdownPosition]="dropdownPosition"
         [groupBy]="groupBy" [clearAllText]="clearAllTooltip || ngtTranslateService.ngtSelectClearAllTooltip"
         [virtualScroll]="virtualScroll" [tabIndex]="tabIndex" [items]="ngSelectItems | async"
