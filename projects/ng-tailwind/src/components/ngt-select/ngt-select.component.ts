@@ -20,7 +20,7 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import {AbstractControl, ControlContainer, NgForm} from '@angular/forms';
-import {NgOption, NgSelectComponent} from '@ng-select/ng-select';
+import {DropdownPosition, NgOption, NgSelectComponent} from '@ng-select/ng-select';
 import {Observable, Observer, Subject, Subscription} from 'rxjs';
 
 import {NgtBaseNgModel, NgtMakeProvider} from '../../base/ngt-base-ng-model';
@@ -62,7 +62,7 @@ export class NgtSelectComponent extends NgtBaseNgModel implements OnChanges, OnD
     @Input() public loading: boolean = false;
     @Input() public loadingText: string = '';
     @Input() public notFoundText: string = '';
-    @Input() public dropdownPosition = 'auto';
+    @Input() public dropdownPosition: DropdownPosition = 'auto';
     @Input() public typeToSearchText: string = '';
     @Input() public clearAllTooltip: string = '';
     @Input() public placeholder: string = '';
@@ -92,6 +92,7 @@ export class NgtSelectComponent extends NgtBaseNgModel implements OnChanges, OnD
     @Input() public virtualScroll: boolean = true;
     @Input() public tabIndex: number;
     @Input() public typeahead: Subject<any>;
+    @Input() public searchFn: () => void;
     @Input() public groupValue: (groupKey: string, cildren: any[]) => Object;
     @Input() public trackBy: (item: any) => any;
 
@@ -301,7 +302,7 @@ export class NgtSelectComponent extends NgtBaseNgModel implements OnChanges, OnD
         this.currentState.filters = { ...this.currentState.filters, ...filters };
 
         if (!this.remoteResource) {
-            return;
+            this.searchFn();
         }
 
         if (this.searchTimeout) {
