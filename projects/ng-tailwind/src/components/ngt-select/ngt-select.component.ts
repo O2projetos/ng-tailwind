@@ -92,7 +92,7 @@ export class NgtSelectComponent extends NgtBaseNgModel implements OnChanges, OnD
     @Input() public virtualScroll: boolean = true;
     @Input() public tabIndex: number;
     @Input() public typeahead: Subject<any>;
-    @Input() public searchFn: () => void;
+    @Input() public searchFn: (searchText) => void;
     @Input() public groupValue: (groupKey: string, cildren: any[]) => Object;
     @Input() public trackBy: (item: any) => any;
 
@@ -302,7 +302,7 @@ export class NgtSelectComponent extends NgtBaseNgModel implements OnChanges, OnD
         this.currentState.filters = { ...this.currentState.filters, ...filters };
 
         if (!this.remoteResource) {
-            this.searchFn();
+            this.searchFn(filters);
         }
 
         if (this.searchTimeout) {
