@@ -304,6 +304,7 @@ export class NgtSelectComponent extends NgtBaseNgModel implements OnChanges, OnD
         if (!this.remoteResource) {
             if(this.searchFn) {
                 this.searchFn(this.getFilterInputValue());
+                this.refresh();
             }
 
             return;
