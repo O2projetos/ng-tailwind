@@ -303,6 +303,8 @@ export class NgtSelectComponent extends NgtBaseNgModel implements OnChanges, OnD
 
         if (!this.remoteResource) {
             this.searchFn(filters);
+
+            return;
         }
 
         if (this.searchTimeout) {
