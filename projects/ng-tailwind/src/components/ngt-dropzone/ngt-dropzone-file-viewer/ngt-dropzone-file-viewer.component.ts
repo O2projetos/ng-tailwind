@@ -1,5 +1,5 @@
-import { Component, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
-import { NgxDocViewerComponent } from 'ngx-doc-viewer';
+import {Component, EventEmitter, HostListener, Input, Output, ViewChild} from '@angular/core';
+import {NgxDocViewerComponent} from 'ngx-doc-viewer';
 
 @Component({
     selector: 'ngt-dropzone-file-viewer',
@@ -43,7 +43,7 @@ export class NgtDropzoneFileViewerComponent {
         let file = document.createElement("a");
 
         file.target = '_blank';
-        file.href = this.url;
+        file.href = this.url.replace('preview', 'download');
         file.setAttribute("download", this.fileName);
         file.click();
     }
