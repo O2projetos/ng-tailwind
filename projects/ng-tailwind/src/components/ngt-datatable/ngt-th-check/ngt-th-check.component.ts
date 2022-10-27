@@ -1,9 +1,9 @@
-import { AfterContentInit, Component, ElementRef, Injector, OnDestroy, Optional, Self, SkipSelf } from '@angular/core';
-import { Subscription } from 'rxjs';
+import {AfterContentInit, Component, ElementRef, Injector, OnDestroy, Optional, Self, SkipSelf} from '@angular/core';
+import {Subscription} from 'rxjs';
 
-import { NgtStylizableDirective } from '../../../directives/ngt-stylizable/ngt-stylizable.directive';
-import { NgtStylizableService } from '../../../services/ngt-stylizable/ngt-stylizable.service';
-import { NgtDatatableComponent } from '../ngt-datatable.component';
+import {NgtStylizableDirective} from '../../../directives/ngt-stylizable/ngt-stylizable.directive';
+import {NgtStylizableService} from '../../../services/ngt-stylizable/ngt-stylizable.service';
+import {NgtDatatableComponent} from '../ngt-datatable.component';
 
 @Component({
     selector: '[ngt-th-check]',
@@ -48,7 +48,7 @@ export class NgtThCheckComponent implements AfterContentInit, OnDestroy {
 
     public onCheckboxChange(checked: boolean) {
         if (this.ngtDataTable) {
-            this.ngtDataTable.onToogleAllCheckboxes.emit(checked);
+            this.ngtDataTable.onToggleAllCheckboxes.emit(checked);
         }
     }
 

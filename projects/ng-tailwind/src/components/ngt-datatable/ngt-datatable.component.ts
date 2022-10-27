@@ -13,14 +13,14 @@ import {
     TemplateRef,
     ViewChild,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
+import {Subscription} from 'rxjs';
 
-import { getEnumFromString } from '../../helpers/enum/enum';
-import { NgtHttpPagination, NgtHttpResponse, NgtHttpService } from '../../services/http/ngt-http.service';
-import { NgtTranslateService } from '../../services/http/ngt-translate.service';
-import { NgtInputComponent } from '../ngt-input/ngt-input.component';
-import { NgtModalComponent } from '../ngt-modal/ngt-modal.component';
-import { NgtPaginationComponent } from '../ngt-pagination/ngt-pagination.component';
+import {getEnumFromString} from '../../helpers/enum/enum';
+import {NgtHttpPagination, NgtHttpResponse, NgtHttpService} from '../../services/http/ngt-http.service';
+import {NgtTranslateService} from '../../services/http/ngt-translate.service';
+import {NgtInputComponent} from '../ngt-input/ngt-input.component';
+import {NgtModalComponent} from '../ngt-modal/ngt-modal.component';
+import {NgtPaginationComponent} from '../ngt-pagination/ngt-pagination.component';
 
 @Component({
     selector: 'ngt-datatable',
@@ -41,13 +41,14 @@ export class NgtDatatableComponent implements OnInit, OnDestroy {
     @Input() public searchTermOnEnter: boolean = true;
     @Input() public defaultFilters: any = {};
     @Input() public filtersDescription = {};
+    @Input() public hidePagination: boolean = false;
 
     @Output() public onDataChange: EventEmitter<any> = new EventEmitter();
     @Output() public onClearFilter: EventEmitter<any> = new EventEmitter();
     @Output() public onClearSelectedElements: EventEmitter<any> = new EventEmitter();
     @Output() public onSelectedElementsChange: EventEmitter<Array<NgtCheckedElement>> = new EventEmitter();
-    @Output() public onToogleAllCheckboxes: EventEmitter<any> = new EventEmitter();
-    @Output() public onToogleCheckbox: EventEmitter<NgtCheckedElement> = new EventEmitter();
+    @Output() public onToggleAllCheckboxes: EventEmitter<any> = new EventEmitter();
+    @Output() public onToggleCheckbox: EventEmitter<NgtCheckedElement> = new EventEmitter();
     @Output() public onOpenSearchModal: EventEmitter<string> = new EventEmitter();
     @Output() public onSearch: EventEmitter<any> = new EventEmitter();
 
@@ -414,7 +415,7 @@ export class NgtDatatableComponent implements OnInit, OnDestroy {
 
     private initCheckboxEvent() {
         this.subscriptions.push(
-            this.onToogleCheckbox.subscribe((checkedElement: NgtCheckedElement) => {
+            this.onToggleCheckbox.subscribe((checkedElement: NgtCheckedElement) => {
                 this.selectedElements = this.selectedElements.filter(item => item.id !== checkedElement.id);
 
                 if (checkedElement.checked) {

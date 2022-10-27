@@ -1,11 +1,23 @@
-import { Component, ElementRef, Injector, Input, OnDestroy, Optional, Output, Self, SkipSelf, ViewChild, EventEmitter } from '@angular/core';
-import { Subscription } from 'rxjs';
+import {
+    Component,
+    ElementRef,
+    EventEmitter,
+    Injector,
+    Input,
+    OnDestroy,
+    Optional,
+    Output,
+    Self,
+    SkipSelf,
+    ViewChild
+} from '@angular/core';
+import {Subscription} from 'rxjs';
 
-import { NgtStylizableDirective } from '../../../directives/ngt-stylizable/ngt-stylizable.directive';
-import { uuid } from '../../../helpers/uuid';
-import { NgtStylizableService } from '../../../services/ngt-stylizable/ngt-stylizable.service';
-import { NgtCheckboxComponent } from '../../ngt-checkbox/ngt-checkbox.component';
-import { NgtDatatableComponent } from '../ngt-datatable.component';
+import {NgtStylizableDirective} from '../../../directives/ngt-stylizable/ngt-stylizable.directive';
+import {uuid} from '../../../helpers/uuid';
+import {NgtStylizableService} from '../../../services/ngt-stylizable/ngt-stylizable.service';
+import {NgtCheckboxComponent} from '../../ngt-checkbox/ngt-checkbox.component';
+import {NgtDatatableComponent} from '../ngt-datatable.component';
 
 @Component({
     selector: '[ngt-td-check]',
@@ -36,7 +48,7 @@ export class NgtTdCheckComponent implements OnDestroy {
     public ngAfterContentInit() {
         if (this.ngtDataTable) {
             this.subscriptions.push(
-                this.ngtDataTable.onToogleAllCheckboxes.subscribe((checked: boolean) => {
+                this.ngtDataTable.onToggleAllCheckboxes.subscribe((checked: boolean) => {
                     this.checked = checked;
                 })
             );
@@ -61,7 +73,7 @@ export class NgtTdCheckComponent implements OnDestroy {
 
     public onCheckboxChange(checked: boolean) {
         if (this.ngtDataTable) {
-            this.ngtDataTable.onToogleCheckbox.emit({
+            this.ngtDataTable.onToggleCheckbox.emit({
                 id: this.id,
                 checked: checked,
                 reference: this.reference
