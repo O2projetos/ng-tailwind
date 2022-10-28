@@ -21,6 +21,7 @@ import {
     NgtDatepickerCalendarTheme,
     NgtDatepickerCalendarThemeEnum,
     NgtDatepickerOptions,
+    NgtDatepickerPositionEnum,
     NgtDatepickerTypeEnum,
     nightTemplateCalendarClasses
 } from "./ngt-datepicker.helper";
@@ -73,6 +74,7 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
     @Input() public helpText: string;
     @Input() public hideCalendarIcon: boolean = false;
     @Input() public calendarTheme: NgtDatepickerCalendarThemeEnum;
+    @Input() public position: NgtDatepickerPositionEnum;
 
     // Behavior
     @Input() public options: NgtDatepickerOptions = defaultDatePickerOptions;
@@ -93,6 +95,7 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
     public innerValue: Array<Date> = [];
     public ngtDatepickerInputStyle: NgtStylizableService;
     public ngtDatepickerStyle: NgtStylizableService;
+    public ngtDatepickerPositionEnum = NgtDatepickerPositionEnum;
     private subscriptions: Array<Subscription> = [];
 
     public constructor(
