@@ -59,7 +59,7 @@
     <div *ngIf="isOpened && template && datepickerOptions" style="min-width: 18rem!important"
          class="{{ngtDatepickerStyle.compile(['text', 'color.text', 'color.bg', 'fontCase', 'border', 'color.border'])}} absolute {{position == ngtDatepickerPositionEnum.RIGHT ? 'right-0' : 'left-0'}}"
          #datepicker>
-        <div class="w-full flex justify-between items-center px-1">
+        <div class="w-full flex justify-between items-center p-2">
             <div class="h-full font-bold flex items-center relative capitalize px-2">
                 {{ date | date:'MMMM' }}
             </div>
@@ -77,7 +77,7 @@
             </div>
         </div>
 
-        <div class="block w-full h-full text-sm px-1">
+        <div class="block w-full h-full text-sm p-2">
             <div class="w-full flex flex-wrap items-center justify-between h-12">
                 <div *ngFor="let day of weekDays" class="font-bold text-center"
                      style="width: calc(100% / 7)">
