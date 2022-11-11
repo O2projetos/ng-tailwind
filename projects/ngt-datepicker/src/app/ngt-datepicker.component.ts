@@ -25,7 +25,6 @@ import {
     NgtDatepickerTypeEnum,
     nightTemplateCalendarClasses
 } from "./ngt-datepicker.helper";
-import locale from 'date-fns/locale/pt-BR';
 import {
     addMonths,
     eachDayOfInterval,
@@ -81,13 +80,16 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
     @Input() public isOpened: boolean;
     @Input() public name: string = uuid();
     @Input() public locale: Locale;
-    @Input() public type: NgtDatepickerTypeEnum;
+    @Input() public minDate: Date;
+    @Input() public maxDate: Date;
+    @Input() public type: NgtDatepickerTypeEnum = NgtDatepickerTypeEnum.RANGE;
     @Input() public defaultDate: Date | string;
     @Input() public isRequired: boolean;
     @Input() public isDisabled: boolean;
     @Input() public clearable: boolean;
 
     public dates: Array<Date> = [];
+    public renderDate: Date;
     public days: Array<Day>;
     public weekDays: Array<string>;
 
@@ -174,6 +176,8 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
             ...defaultDatePickerOptions,
             ...this.options,
             ...{locale: this.locale ?? this.options.locale},
+            ...{maxDate: this.maxDate ?? this.options.maxDate},
+            ...{minDate: this.minDate ?? this.options.minDate},
             ...{type: this.type ?? this.options.type},
             ...{clearable: this.clearable ?? this.options.clearable},
             ...{placeholder: this.placeholder ?? this.options.placeholder},
@@ -275,12 +279,12 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
     }
 
     public nextMonth(): void {
-        this.date = addMonths(this.date, 1);
+        this.renderDate = addMonths(this.renderDate, 1);
         this.initDays();
     }
 
     public prevMonth(): void {
-        this.date = subMonths(this.date, 1);
+        this.renderDate = subMonths(this.renderDate, 1);
         this.initDays();
     }
 
@@ -305,6 +309,10 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
 
     public hasErrors(): boolean {
         return this.formControl?.errors && (this.formControl?.dirty || (this.formContainer && this.formContainer['submitted']));
+    }
+
+    public getMonthName() {
+        return format(this.renderDate, 'MMMM', {locale: this.datepickerOptions.locale});
     }
 
     private getSortedDateArray(dates: Array<Date>): Array<Date> {
@@ -345,6 +353,7 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
             // }
         }
 
+        this.renderDate = this.date;
         this.componentReady = true;
 
         this.initDayNames();
@@ -352,7 +361,7 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
     }
 
     private initDays(): void {
-        const date = this.date;
+        const date = this.renderDate;
         const [start, end] = [startOfMonth(date), endOfMonth(date)];
 
         this.days = eachDayOfInterval({start, end}).map((d: Date) => this.generateDay(d));
@@ -372,7 +381,7 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
         for (let i = 0; i <= 6; i++) {
             const date = setDay(new Date(), i);
 
-            this.weekDays.push(format(date, 'EEEEEE', {locale: locale}));
+            this.weekDays.push(format(date, 'EEEEEE', {locale: this.datepickerOptions.locale}));
         }
     }
 
@@ -402,11 +411,11 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
     }
 
     private isDateSelectable(date: Date): boolean {
-        if (this.options.minDate && isBefore(date, this.options.minDate)) {
+        if (this.datepickerOptions.minDate && isBefore(date, this.datepickerOptions.minDate)) {
             return false;
         }
 
-        return !(this.options.maxDate && isAfter(date, this.options.maxDate));
+        return !(this.datepickerOptions.maxDate && isAfter(date, this.datepickerOptions.maxDate));
     }
 
     private updateValidations() {
