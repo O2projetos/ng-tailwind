@@ -112,7 +112,7 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
 
     public constructor(
         @Optional()
-        public ngtDatepickerOptionsProvider: NgtDatepickerOptionsService,
+        public ngtDatepickerOptionsService: NgtDatepickerOptionsService,
         public formContainer: ControlContainer,
         private injector: Injector,
         @Self() @Optional()
@@ -185,39 +185,28 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
 
     public get datepickerOptions(): NgtDatepickerOptions {
         return <NgtDatepickerOptions>{
-            ...{type: this.type ?? this.ngtDatepickerOptionsProvider.type ?? defaultDatePickerOptions.type},
-            ...{minDate: this.minDate ?? this.ngtDatepickerOptionsProvider.minDate ?? defaultDatePickerOptions.minDate},
-            ...{maxDate: this.maxDate ?? this.ngtDatepickerOptionsProvider.maxDate ?? defaultDatePickerOptions.maxDate},
-            ...{firstCalendarDay: this.firstCalendarDay ?? this.ngtDatepickerOptionsProvider.firstCalendarDay ?? defaultDatePickerOptions.firstCalendarDay},
-            ...{position: this.position ?? this.ngtDatepickerOptionsProvider.position ?? defaultDatePickerOptions.position},
-            ...{calendarTemplate: this.template ?? this.ngtDatepickerOptionsProvider.calendarTemplate ?? defaultDatePickerOptions.calendarTemplate},
-            ...{closeOnSelect: this.closeOnSelect ?? this.ngtDatepickerOptionsProvider.closeOnSelect ?? defaultDatePickerOptions.closeOnSelect},
-            ...{formatTitle: this.formatTitle ?? this.ngtDatepickerOptionsProvider.formatTitle ?? defaultDatePickerOptions.formatTitle},
-            ...{formatNgModel: this.formatNgModel ?? this.ngtDatepickerOptionsProvider.formatNgModel ?? defaultDatePickerOptions.formatNgModel},
-            ...{formatInput: this.formatInput ?? this.ngtDatepickerOptionsProvider.formatInput ?? defaultDatePickerOptions.formatInput},
-            ...{placeholder: this.placeholder ?? this.ngtDatepickerOptionsProvider.placeholder ?? defaultDatePickerOptions.placeholder},
-            ...{hideCalendarIcon: this.hideCalendarIcon ?? this.ngtDatepickerOptionsProvider.hideCalendarIcon ?? defaultDatePickerOptions.hideCalendarIcon},
-            ...{clearable: this.clearable ?? this.ngtDatepickerOptionsProvider.clearable ?? defaultDatePickerOptions.clearable},
-            ...{locale: this.locale ?? this.ngtDatepickerOptionsProvider.locale ?? defaultDatePickerOptions.locale},
+            ...{type: this.type ?? this.ngtDatepickerOptionsService.type ?? defaultDatePickerOptions.type},
+            ...{minDate: this.minDate ?? this.ngtDatepickerOptionsService.minDate ?? defaultDatePickerOptions.minDate},
+            ...{maxDate: this.maxDate ?? this.ngtDatepickerOptionsService.maxDate ?? defaultDatePickerOptions.maxDate},
+            ...{firstCalendarDay: this.firstCalendarDay ?? this.ngtDatepickerOptionsService.firstCalendarDay ?? defaultDatePickerOptions.firstCalendarDay},
+            ...{position: this.position ?? this.ngtDatepickerOptionsService.position ?? defaultDatePickerOptions.position},
+            ...{calendarTemplate: this.template ?? this.ngtDatepickerOptionsService.calendarTemplate ?? defaultDatePickerOptions.calendarTemplate},
+            ...{closeOnSelect: this.closeOnSelect ?? this.ngtDatepickerOptionsService.closeOnSelect ?? defaultDatePickerOptions.closeOnSelect},
+            ...{formatTitle: this.formatTitle ?? this.ngtDatepickerOptionsService.formatTitle ?? defaultDatePickerOptions.formatTitle},
+            ...{formatNgModel: this.formatNgModel ?? this.ngtDatepickerOptionsService.formatNgModel ?? defaultDatePickerOptions.formatNgModel},
+            ...{formatInput: this.formatInput ?? this.ngtDatepickerOptionsService.formatInput ?? defaultDatePickerOptions.formatInput},
+            ...{placeholder: this.placeholder ?? this.ngtDatepickerOptionsService.placeholder ?? defaultDatePickerOptions.placeholder},
+            ...{hideCalendarIcon: this.hideCalendarIcon ?? this.ngtDatepickerOptionsService.hideCalendarIcon ?? defaultDatePickerOptions.hideCalendarIcon},
+            ...{clearable: this.clearable ?? this.ngtDatepickerOptionsService.clearable ?? defaultDatePickerOptions.clearable},
+            ...{locale: this.locale ?? this.ngtDatepickerOptionsService.locale ?? defaultDatePickerOptions.locale},
         };
     }
 
     public get template(): NgtDatepickerCalendarTheme {
-        if (!this.calendarTemplate && !this.ngtDatepickerOptionsProvider?.calendarTemplate) {
-            return defaultTemplateCalendarClasses;
-        }
-
-        if (this.options) {
-            return {
-                [NgtDatepickerCalendarThemeEnum.DEFAULT]: {...defaultTemplateCalendarClasses, ...this.options},
-                [NgtDatepickerCalendarThemeEnum.NIGHT]: {...nightTemplateCalendarClasses, ...this.options},
-            }[this.calendarTemplate ?? this.ngtDatepickerOptionsProvider?.calendarTemplate];
-        }
-
         return {
             [NgtDatepickerCalendarThemeEnum.DEFAULT]: defaultTemplateCalendarClasses,
             [NgtDatepickerCalendarThemeEnum.NIGHT]: nightTemplateCalendarClasses,
-        }[this.calendarTemplate ?? this.ngtDatepickerOptionsProvider?.calendarTemplate];
+        }[this.calendarTemplate ?? this.ngtDatepickerOptionsService?.calendarTemplate ?? NgtDatepickerCalendarThemeEnum.DEFAULT];
     }
 
     public ngAfterViewInit(): void {
@@ -377,7 +366,7 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
             // }
         }
 
-        this.renderDate = this.date;
+        this.renderDate = this.date ?? new Date();
         this.componentReady = true;
 
         this.initDayNames();

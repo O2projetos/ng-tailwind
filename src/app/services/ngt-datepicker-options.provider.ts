@@ -4,12 +4,13 @@ import {ptBR} from "date-fns/locale";
 import {
     NgtDatepickerCalendarThemeEnum,
     NgtDatepickerFirstCalendarDayEnum,
+    NgtDatepickerOptions,
     NgtDatepickerPositionEnum,
     NgtDatepickerTypeEnum
 } from "../../../projects/ng-tailwind/src/components/ngt-datepicker/ngt-datepicker.helper";
 
 @Injectable()
-export class NgtDatepickerOptionsProvider {
+export class NgtDatepickerOptionsProvider implements NgtDatepickerOptions {
     public type?: NgtDatepickerTypeEnum;
     public minDate?: Date | null;
     public maxDate?: Date | null;
