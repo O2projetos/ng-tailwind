@@ -147,3 +147,9 @@ export * from './animations/ngt-angular-animations';
 // NgtHelper
 export * from './components/ngt-helper/ngt-helper.module';
 export * from './components/ngt-helper/ngt-helper.component';
+
+// NgtDatepicker
+export * from './components/ngt-datepicker/ngt-datepicker.component';
+export * from './components/ngt-datepicker/ngt-datepicker.helper';
+export * from './components/ngt-datepicker/ngt-datepicker-options.service';
+export * from './components/ngt-datepicker/ngt-datepicker.module';

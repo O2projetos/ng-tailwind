@@ -20,6 +20,7 @@ import {
     defaultTemplateCalendarClasses,
     NgtDatepickerCalendarTheme,
     NgtDatepickerCalendarThemeEnum,
+    NgtDatepickerFirstCalendarDayEnum,
     NgtDatepickerOptions,
     NgtDatepickerPositionEnum,
     NgtDatepickerTypeEnum,
@@ -45,10 +46,12 @@ import {
     subDays,
     subMonths
 } from "date-fns";
-import {uuid} from "../helper/uuid";
-import {NgtStylizableDirective, NgtStylizableService} from "@o2projetos/ngt-stylizable";
 import {Subscription} from "rxjs";
-import {NgtBaseNgModel, NgtMakeProvider} from "@o2projetos/ngt-form";
+import {uuid} from "../../helpers/uuid";
+import {NgtBaseNgModel, NgtMakeProvider} from "../../base/ngt-base-ng-model";
+import {NgtStylizableService} from "../../services/ngt-stylizable/ngt-stylizable.service";
+import {NgtStylizableDirective} from "../../directives/ngt-stylizable/ngt-stylizable.directive";
+import {NgtDatepickerOptionsService} from "./ngt-datepicker-options.service";
 
 @Component({
     selector: 'ngt-datepicker',
@@ -72,17 +75,24 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
     @Input() public helpTitle: string;
     @Input() public helpText: string;
     @Input() public hideCalendarIcon: boolean = false;
-    @Input() public calendarTheme: NgtDatepickerCalendarThemeEnum;
     @Input() public position: NgtDatepickerPositionEnum;
+    @Input() public formatTitle?: string;
+    @Input() public formatInput?: string;
+    @Input() public firstCalendarDay?: NgtDatepickerFirstCalendarDayEnum;
+    @Input() public calendarTemplate?: NgtDatepickerCalendarThemeEnum;
+    @Input() public closeOnSelect?: boolean;
+    @Input() public formatNgModel?: string;
+    // @Input() public enableTime?: boolean;
+    // @Input() public calendarCustomTemplate?: NgtDatepickerCalendarTheme | null;
 
     // Behavior
-    @Input() public options: NgtDatepickerOptions = defaultDatePickerOptions;
+    @Input() public options: NgtDatepickerOptions;
     @Input() public isOpened: boolean;
     @Input() public name: string = uuid();
     @Input() public locale: Locale;
     @Input() public minDate: Date;
     @Input() public maxDate: Date;
-    @Input() public type: NgtDatepickerTypeEnum = NgtDatepickerTypeEnum.RANGE;
+    @Input() public type: NgtDatepickerTypeEnum;
     @Input() public defaultDate: Date | string;
     @Input() public isRequired: boolean;
     @Input() public isDisabled: boolean;
@@ -101,11 +111,13 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
     private subscriptions: Array<Subscription> = [];
 
     public constructor(
+        @Optional()
+        public ngtDatepickerOptionsProvider: NgtDatepickerOptionsService,
+        public formContainer: ControlContainer,
         private injector: Injector,
         @Self() @Optional()
         private ngtStylizableDirective: NgtStylizableDirective,
         @Optional() @Host()
-        public formContainer: ControlContainer,
         private changeDetectorRef: ChangeDetectorRef
     ) {
         super();
@@ -173,27 +185,39 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
 
     public get datepickerOptions(): NgtDatepickerOptions {
         return <NgtDatepickerOptions>{
-            ...defaultDatePickerOptions,
-            ...this.options,
-            ...{locale: this.locale ?? this.options.locale},
-            ...{maxDate: this.maxDate ?? this.options.maxDate},
-            ...{minDate: this.minDate ?? this.options.minDate},
-            ...{type: this.type ?? this.options.type},
-            ...{clearable: this.clearable ?? this.options.clearable},
-            ...{placeholder: this.placeholder ?? this.options.placeholder},
-            ...{hideCalendarIcon: this.hideCalendarIcon ?? this.options.hideCalendarIcon}
+            ...{type: this.type ?? this.ngtDatepickerOptionsProvider.type ?? defaultDatePickerOptions.type},
+            ...{minDate: this.minDate ?? this.ngtDatepickerOptionsProvider.minDate ?? defaultDatePickerOptions.minDate},
+            ...{maxDate: this.maxDate ?? this.ngtDatepickerOptionsProvider.maxDate ?? defaultDatePickerOptions.maxDate},
+            ...{firstCalendarDay: this.firstCalendarDay ?? this.ngtDatepickerOptionsProvider.firstCalendarDay ?? defaultDatePickerOptions.firstCalendarDay},
+            ...{position: this.position ?? this.ngtDatepickerOptionsProvider.position ?? defaultDatePickerOptions.position},
+            ...{calendarTemplate: this.template ?? this.ngtDatepickerOptionsProvider.calendarTemplate ?? defaultDatePickerOptions.calendarTemplate},
+            ...{closeOnSelect: this.closeOnSelect ?? this.ngtDatepickerOptionsProvider.closeOnSelect ?? defaultDatePickerOptions.closeOnSelect},
+            ...{formatTitle: this.formatTitle ?? this.ngtDatepickerOptionsProvider.formatTitle ?? defaultDatePickerOptions.formatTitle},
+            ...{formatNgModel: this.formatNgModel ?? this.ngtDatepickerOptionsProvider.formatNgModel ?? defaultDatePickerOptions.formatNgModel},
+            ...{formatInput: this.formatInput ?? this.ngtDatepickerOptionsProvider.formatInput ?? defaultDatePickerOptions.formatInput},
+            ...{placeholder: this.placeholder ?? this.ngtDatepickerOptionsProvider.placeholder ?? defaultDatePickerOptions.placeholder},
+            ...{hideCalendarIcon: this.hideCalendarIcon ?? this.ngtDatepickerOptionsProvider.hideCalendarIcon ?? defaultDatePickerOptions.hideCalendarIcon},
+            ...{clearable: this.clearable ?? this.ngtDatepickerOptionsProvider.clearable ?? defaultDatePickerOptions.clearable},
+            ...{locale: this.locale ?? this.ngtDatepickerOptionsProvider.locale ?? defaultDatePickerOptions.locale},
         };
     }
 
     public get template(): NgtDatepickerCalendarTheme {
-        if (!this.options.calendarTemplate) {
-            this.options.calendarTemplate = NgtDatepickerCalendarThemeEnum.DEFAULT;
+        if (!this.calendarTemplate && !this.ngtDatepickerOptionsProvider?.calendarTemplate) {
+            return defaultTemplateCalendarClasses;
+        }
+
+        if (this.options) {
+            return {
+                [NgtDatepickerCalendarThemeEnum.DEFAULT]: {...defaultTemplateCalendarClasses, ...this.options},
+                [NgtDatepickerCalendarThemeEnum.NIGHT]: {...nightTemplateCalendarClasses, ...this.options},
+            }[this.calendarTemplate ?? this.ngtDatepickerOptionsProvider?.calendarTemplate];
         }
 
         return {
             [NgtDatepickerCalendarThemeEnum.DEFAULT]: defaultTemplateCalendarClasses,
             [NgtDatepickerCalendarThemeEnum.NIGHT]: nightTemplateCalendarClasses,
-        }[this.calendarTheme ?? this.options.calendarTemplate];
+        }[this.calendarTemplate ?? this.ngtDatepickerOptionsProvider?.calendarTemplate];
     }
 
     public ngAfterViewInit(): void {

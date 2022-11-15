@@ -5,12 +5,12 @@
     <span class="text-red-500 font-bold text-md ml-1" *ngIf="isRequired">*</span>
 
     <ngt-helper *ngIf="helpText" class="ml-1">
-        <ng-container title>
+        <div title>
             {{helpTitle}}
-        </ng-container>
-        <ng-container text>
-            {{ helpText }}
-        </ng-container>
+        </div>
+        <div text>
+            {{helpText}}
+        </div>
     </ngt-helper>
 </label>
 

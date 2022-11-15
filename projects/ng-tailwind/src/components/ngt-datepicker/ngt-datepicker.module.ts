@@ -1,13 +1,17 @@
 import {NgModule} from '@angular/core';
-import {NgtDatepickerComponent} from "./ngt-datepicker.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
-import {NgtHelperModule} from "@o2projetos/ngt-helper";
-import {NgtValidationModule} from "@o2projetos/ngt-validation";
+import {NgtDatepickerComponent} from "./ngt-datepicker.component";
+import {NgtHelperModule} from "../ngt-helper/ngt-helper.module";
+import {NgtValidationModule} from "../ngt-validation/ngt-validation.module";
+import {NgtDatepickerOptionsService} from "./ngt-datepicker-options.service";
 
 @NgModule({
     declarations: [
         NgtDatepickerComponent
+    ],
+    providers: [
+        NgtDatepickerOptionsService
     ],
     imports: [
         FormsModule,

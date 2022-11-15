@@ -4,8 +4,13 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
     NgtAttachmentHttpService,
     NgtDateModule,
+    NgtDatepickerModule,
+    NgtFormModule,
+    NgtHttpFormService,
     NgtHttpService,
     NgtSelectModule,
+    NgtStylizableModule,
+    NgtSvgModule,
     NgtTranslateService
 } from 'projects/ng-tailwind/src/public-api';
 
@@ -16,12 +21,11 @@ import {HomeModule} from './pages/home/home.module';
 import {NgtAttachmentHttpServiceTest} from './services/ngt-attachment-http-test.service';
 import {NgtHttpTest} from './services/ngt-http-test.service';
 import {NgtTranslateDefaultService} from './services/ngt-translate-default.service';
-import {NgtStylizableModule} from "@o2projetos/ngt-stylizable";
-import {NgtSvgModule} from "@o2projetos/ngt-svg";
-import {NgtDatepickerModule} from "@o2projetos/ngt-datepicker";
 import {FormsModule} from "@angular/forms";
-import {NgtValidationTranslateProvider, NgtValidationTranslateService} from "@o2projetos/ngt-validation";
-import {NgtFormModule, NgtHttpFormService} from "@o2projetos/ngt-form";
+import {
+    NgtDatepickerOptionsService
+} from "../../projects/ng-tailwind/src/components/ngt-datepicker/ngt-datepicker-options.service";
+import {NgtDatepickerOptionsProvider} from "./services/ngt-datepicker-options.provider";
 
 @NgModule({
     declarations: [
@@ -58,8 +62,8 @@ import {NgtFormModule, NgtHttpFormService} from "@o2projetos/ngt-form";
             useClass: NgtTranslateDefaultService
         },
         {
-            provide: NgtValidationTranslateService,
-            useClass: NgtValidationTranslateProvider
+            provide: NgtDatepickerOptionsService,
+            useClass: NgtDatepickerOptionsProvider
         },
         {
             provide: 'NgtThStyle',
