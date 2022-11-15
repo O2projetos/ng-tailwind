@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Locale} from "date-fns";
-import {ptBR} from "date-fns/locale";
+import {es} from "date-fns/locale";
 import {
     NgtDatepickerCalendarThemeEnum,
     NgtDatepickerFirstCalendarDayEnum,
@@ -28,6 +28,6 @@ export class NgtDatepickerOptionsProvider implements NgtDatepickerOptions {
     public clearable?: boolean;
 
     public get locale(): Locale {
-        return ptBR;
+        return es;
     }
 }

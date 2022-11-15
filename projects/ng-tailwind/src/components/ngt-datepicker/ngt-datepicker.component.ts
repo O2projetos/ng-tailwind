@@ -111,7 +111,6 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
     private subscriptions: Array<Subscription> = [];
 
     public constructor(
-        @Optional()
         public ngtDatepickerOptionsService: NgtDatepickerOptionsService,
         public formContainer: ControlContainer,
         private injector: Injector,
