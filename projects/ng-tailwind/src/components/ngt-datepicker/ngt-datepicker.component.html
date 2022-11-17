@@ -1,4 +1,4 @@
-<label class="flex mb-2 {{ngtDatepickerInputStyle.compile(['text', 'color.text', 'fontCase'])}}"
+<label class="{{shining ? 'hidden' : 'flex'}} mb-2 {{ngtDatepickerInputStyle.compile(['text', 'color.text', 'fontCase'])}}"
        *ngIf="label">
     {{ label }}:
 
@@ -14,14 +14,15 @@
     </ngt-helper>
 </label>
 
-<div *ngIf="isDisabled" class="w-full px-4 py-3 rounded appearance-none block border bg-gray-100 border-gray-300">
+<div *ngIf="isDisabled"
+     class="{{shining ? 'hidden' : 'block'}} w-full px-4 py-3 rounded appearance-none border bg-gray-100 border-gray-300">
     <div *ngIf="!value?.length" class="opacity-75">
         {{datepickerOptions.placeholder}}
     </div>
     {{formattedDates}}
 </div>
 
-<div *ngIf="!isDisabled" class="relative w-full inline-block box-border">
+<div *ngIf="!isDisabled" class="{{shining ? 'hidden' : 'relative'}} w-full inline-block box-border">
     <input type="hidden" [ngModel]="value" [value]="value" [name]="name">
 
     <div
@@ -56,7 +57,8 @@
         </div>
     </div>
 
-    <div *ngIf="isOpened && template && datepickerOptions" style="min-width: 18rem!important; max-width: 18rem!important; z-index: 99999999!important;"
+    <div *ngIf="isOpened && template && datepickerOptions"
+         style="min-width: 18rem!important; max-width: 18rem!important; z-index: 99999999!important;"
          class="{{ngtDatepickerStyle.compile(['text', 'color.text', 'color.bg', 'fontCase', 'border', 'color.border'])}} absolute {{position == ngtDatepickerPositionEnum.RIGHT ? 'right-0' : 'left-0'}}"
          #datepicker>
         <div class="w-full flex justify-between items-center p-2">
@@ -96,4 +98,11 @@
         </div>
     </div>
 </div>
+
+<ng-container *ngIf="shining">
+    <div class="flex">
+        <ngt-shining class="h-10 w-full"></ngt-shining>
+    </div>
+</ng-container>
+
 <ngt-validation [control]="formControl" [container]="formContainer"></ngt-validation>

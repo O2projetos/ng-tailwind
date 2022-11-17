@@ -5,6 +5,7 @@ import {NgtDatepickerComponent} from "./ngt-datepicker.component";
 import {NgtHelperModule} from "../ngt-helper/ngt-helper.module";
 import {NgtValidationModule} from "../ngt-validation/ngt-validation.module";
 import {NgtDatepickerOptionsService} from "./ngt-datepicker-options.service";
+import {NgtShiningModule} from "../ngt-shining/ngt-shining.module";
 
 @NgModule({
     declarations: [
@@ -19,6 +20,7 @@ import {NgtDatepickerOptionsService} from "./ngt-datepicker-options.service";
         CommonModule,
         NgtHelperModule,
         NgtValidationModule,
+        NgtShiningModule,
     ],
     exports: [
         NgtDatepickerComponent

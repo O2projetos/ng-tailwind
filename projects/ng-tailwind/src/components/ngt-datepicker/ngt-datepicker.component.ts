@@ -10,6 +10,8 @@ import {
     OnDestroy,
     Optional,
     Self,
+    SimpleChanges,
+    SkipSelf,
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
@@ -52,6 +54,7 @@ import {NgtBaseNgModel, NgtMakeProvider} from "../../base/ngt-base-ng-model";
 import {NgtStylizableService} from "../../services/ngt-stylizable/ngt-stylizable.service";
 import {NgtStylizableDirective} from "../../directives/ngt-stylizable/ngt-stylizable.directive";
 import {NgtDatepickerOptionsService} from "./ngt-datepicker-options.service";
+import {NgtFormComponent} from "../ngt-form/ngt-form.component";
 
 @Component({
     selector: 'ngt-datepicker',
@@ -82,6 +85,7 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
     @Input() public calendarTemplate?: NgtDatepickerCalendarThemeEnum;
     @Input() public closeOnSelect?: boolean;
     @Input() public formatNgModel?: string;
+    @Input() public shining = false;
     // @Input() public enableTime?: boolean;
     // @Input() public calendarCustomTemplate?: NgtDatepickerCalendarTheme | null;
 
@@ -113,6 +117,8 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
     public constructor(
         public ngtDatepickerOptionsService: NgtDatepickerOptionsService,
         public formContainer: ControlContainer,
+        @Optional() @SkipSelf()
+        private ngtFormComponent: NgtFormComponent,
         private injector: Injector,
         @Self() @Optional()
         private ngtStylizableDirective: NgtStylizableDirective,
@@ -122,6 +128,7 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
         super();
 
         this.loadNgtStylizable();
+        this.addFormSubscriptions();
     }
 
     @HostListener('document:click', ['$event'])
@@ -256,8 +263,10 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
         this.isOpened = false;
     }
 
-    public ngOnChanges(): void {
-        // this.updateValidations();
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (changes.isRequired) {
+            this.updateValidations();
+        }
     }
 
     public change(value?: Date | Array<Date> | Array<string> | string): void {
@@ -373,8 +382,7 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
     }
 
     private initDays(): void {
-        const date = this.renderDate;
-        const [start, end] = [startOfMonth(date), endOfMonth(date)];
+        const [start, end] = [startOfMonth(this.renderDate ?? new Date()), endOfMonth(this.renderDate ?? new Date())];
 
         this.days = eachDayOfInterval({start, end}).map((d: Date) => this.generateDay(d));
 
@@ -445,6 +453,18 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
             this.formControl.setValidators(syncValidators);
             this.formControl.updateValueAndValidity();
         });
+    }
+
+    private addFormSubscriptions(): void {
+        if (this.ngtFormComponent) {
+            this.shining = this.ngtFormComponent.isShining();
+
+            this.subscriptions.push(
+                this.ngtFormComponent.onShiningChange.subscribe((shining: boolean) => {
+                    this.shining = shining;
+                })
+            );
+        }
     }
 
     private loadNgtStylizable(): void {
