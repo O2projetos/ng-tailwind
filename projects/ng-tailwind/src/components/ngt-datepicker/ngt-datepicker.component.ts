@@ -324,7 +324,7 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
     }
 
     public getMonthName() {
-        return format(this.renderDate, 'MMMM', {locale: this.datepickerOptions.locale});
+        return format(this.renderDate, 'MMMM/yyyy', {locale: this.datepickerOptions.locale});
     }
 
     private getSortedDateArray(dates: Array<Date>): Array<Date> {
