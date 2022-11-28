@@ -1,4 +1,4 @@
-import { Injector } from '@angular/core';
+import {Injector} from '@angular/core';
 
 export class NgtStylizableService {
     private _color: any;
@@ -29,6 +29,7 @@ export class NgtStylizableService {
     private _justifyContent: string;
     private _cursor: string;
     private _fontCase: string;
+    private _opacity: string;
 
     public get color() {
         return this._color;
@@ -281,6 +282,14 @@ export class NgtStylizableService {
         this._fontCase = this.getQualifiedValue('', fontCase);
     }
 
+    public get opacity(): string {
+        return this._opacity;
+    }
+
+    public set opacity(opacity: string) {
+        this._opacity = this.getQualifiedValue('', 'opacity');
+    }
+
     public load(injector: Injector, style: string, defaultValue = null, inheritanceStyles = []) {
         let ngtGlobalStyle = injector.get('NgtStyleGlobal', {});
 
@@ -362,7 +371,8 @@ export class NgtStylizableService {
                 'position',
                 'justifyContent',
                 'cursor',
-                'fontCase'
+                'fontCase',
+                'opacity'
             ].includes(key));
         }
     }

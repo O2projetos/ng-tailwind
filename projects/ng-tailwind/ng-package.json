@@ -1,24 +1,19 @@
 {
-  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../dist/ng-tailwind",
-  "lib": {
-    "entryFile": "src/public-api.ts",
-    "umdModuleIds": {
-      "ng2-flatpickr": "ng2-flatpickr",
-      "angular-svg-icon": "angular-svg-icon",
-      "ngx-doc-viewer": "ngx-doc-viewer",
-      "ngx-dropzone": "ngx-dropzone",
-      "ngx-viewer": "ngx-viewer",
-      "viewerjs": "viewerjs",
-      "@ng-select/ng-select": "@ng-select/ng-select"
-    }
-  },
-  "allowedNonPeerDependencies": [
-    "flatpickr",
-    "moment",
-    "ng2-flatpickr",
-    "inputmask",
-    "angular-svg-icon",
-    "@ng-select/ng-select"
-  ]
+    "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+    "dest": "../../dist/ng-tailwind",
+    "lib": {
+        "entryFile": "src/public-api.ts",
+        "umdModuleIds": {
+            "angular-svg-icon": "angular-svg-icon",
+            "ngx-doc-viewer": "ngx-doc-viewer",
+            "ngx-dropzone": "ngx-dropzone",
+            "@ng-select/ng-select": "@ng-select/ng-select"
+        }
+    },
+    "allowedNonPeerDependencies": [
+        "date-fns",
+        "inputmask",
+        "angular-svg-icon",
+        "@ng-select/ng-select"
+    ]
 }

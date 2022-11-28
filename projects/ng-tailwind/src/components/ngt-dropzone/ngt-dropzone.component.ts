@@ -20,7 +20,6 @@ import {ControlContainer, NgForm, Validators} from '@angular/forms';
 import {NgxDropzoneChangeEvent, NgxDropzoneComponent} from 'ngx-dropzone';
 import {forkJoin, Subscription} from 'rxjs';
 import {map} from 'rxjs/operators';
-import Viewer from 'viewerjs';
 
 import {NgtBaseNgModel, NgtMakeProvider} from '../../base/ngt-base-ng-model';
 import {getEnumFromString} from '../../helpers/enum/enum';
@@ -35,7 +34,7 @@ export interface NgtDropzoneFile {
     name: string;
     mimeType: string;
     fileSize: any;
-};
+}
 
 export enum NgtDropzoneFileTypeEnum {
     DOC = 'DOC',
@@ -71,9 +70,9 @@ export enum NgtDropzoneErrorType {
     ]
 })
 export class NgtDropzoneComponent extends NgtBaseNgModel implements OnInit, OnDestroy, AfterContentChecked {
-    @ViewChild('container') public container: ElementRef;
-    @ViewChild('ngxDropzone', { static: true }) public ngxDropzone: NgxDropzoneComponent;
     @ViewChild(NgtDropzoneFileViewerComponent, { static: true }) public ngtDropzoneFileViewer: NgtDropzoneFileViewerComponent;
+    @ViewChild('ngxDropzone', { static: true }) public ngxDropzone: NgxDropzoneComponent;
+    @ViewChild('container') public container: ElementRef;
 
     // Visual
     @Input() public label: string;
@@ -98,6 +97,9 @@ export class NgtDropzoneComponent extends NgtBaseNgModel implements OnInit, OnDe
     @Input() public isRequired: boolean = false;
     @Input() public name: string;
     @Input() public remoteResource: any;
+    @Input() public height: number = 180;
+    @Input() public maxHeight: number;
+    @Input() public minHeight: number;
 
     @Output() public onFileSelected: EventEmitter<NgxDropzoneChangeEvent> = new EventEmitter();
     @Output() public onFileSelectError: EventEmitter<NgtDropzoneErrorType> = new EventEmitter();
@@ -114,18 +116,6 @@ export class NgtDropzoneComponent extends NgtBaseNgModel implements OnInit, OnDe
     public componentReady = false;
     public loading: boolean = false;
     public ngtDropzoneLoaderStyle: NgtStylizableService;
-    public imageViewerOptions: any = {
-        navbar: true,
-        toolbar: {
-            zoomIn: true,
-            zoomOut: true,
-            reset: true,
-            rotateLeft: true,
-            rotateRight: true,
-            prev: true,
-            next: true,
-        }
-    };
 
     private subscriptions: Array<Subscription> = [];
 
@@ -179,40 +169,29 @@ export class NgtDropzoneComponent extends NgtBaseNgModel implements OnInit, OnDe
         this.destroySubscriptions();
     }
 
-    public onImageClick(element, index?) {
+    public onCloseFileViewer(): void {
+        this.forceDisableClick = false;
+        this.showNgtDropzoneFileViewer = false;
+    }
+
+    public onImageClick(resource, index?: number) {
         if (!this.viewMode) {
             this.forceDisableClick = true;
         }
 
-        const ngtDropzoneComponent = this;
-
-        if (index) {
-            this.imageViewerOptions = { ...this.imageViewerOptions, ...{ initialViewIndex: index } };
-        }
-
-        const viewer = new Viewer(element, {
-            ...this.imageViewerOptions, ...{
-                hidden() {
-                    ngtDropzoneComponent.forceDisableClick = false;
-                    viewer.destroy();
-                }
-            }
-        });
-
-        viewer.show();
+        this.showNgtDropzoneFileViewer = true;
+        this.ngtDropzoneFileViewer.init(resource.file.url, resource);
     }
 
     public onFileClick(url, name) {
         this.forceDisableClick = true;
-        this.showNgtDropzoneFileViewer = true;
-        this.ngtDropzoneFileViewer.url = url;
-        this.ngtDropzoneFileViewer.fileName = name;
-        this.ngtDropzoneFileViewer.init();
 
-        this.subscriptions.push(this.ngtDropzoneFileViewer.onClose.subscribe(() => {
-            this.showNgtDropzoneFileViewer = false;
-            this.forceDisableClick = false;
-        }));
+        let file = document.createElement("a");
+
+        file.target = '_blank';
+        file.href = url.replace('preview', 'download');
+        file.setAttribute("download", name);
+        file.click();
     }
 
     public async onSelect(event: NgxDropzoneChangeEvent) {

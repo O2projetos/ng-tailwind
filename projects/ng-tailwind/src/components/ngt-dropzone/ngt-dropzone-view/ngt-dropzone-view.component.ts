@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, Input, SimpleChanges, SkipSelf, ViewEncapsulation } from '@angular/core';
+import {AfterViewInit, Component, Input, SimpleChanges, SkipSelf, ViewEncapsulation} from '@angular/core';
 
-import { NgtDropzoneComponent, NgtDropzoneFile, NgtDropzoneFileTypeEnum } from '../ngt-dropzone.component';
+import {NgtDropzoneComponent, NgtDropzoneFile, NgtDropzoneFileTypeEnum} from '../ngt-dropzone.component';
 
 @Component({
     selector: 'ngt-dropzone-view',
@@ -38,17 +38,6 @@ export class NgtDropzoneViewComponent implements AfterViewInit {
     }
 
     public onImageClick(index) {
-        const imagesDiv = document.createElement("div");
-
-        this.images.forEach((image: NgtDropzoneFile) => {
-            let imageElement = document.createElement("img");
-
-            imageElement.src = image.previewUrl;
-
-            imagesDiv.appendChild(imageElement);
-        });
-
-        this.ngtDropzoneComponent.onImageClick(imagesDiv, index);
     }
 
     public getFileType(resource: NgtDropzoneFile): NgtDropzoneFileTypeEnum {

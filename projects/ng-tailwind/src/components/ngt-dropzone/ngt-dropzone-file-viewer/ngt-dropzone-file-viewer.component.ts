@@ -1,5 +1,4 @@
-import {Component, EventEmitter, HostListener, Input, Output, ViewChild} from '@angular/core';
-import {NgxDocViewerComponent} from 'ngx-doc-viewer';
+import {Component, EventEmitter, HostListener, Input, Output} from '@angular/core';
 
 @Component({
     selector: 'ngt-dropzone-file-viewer',
@@ -7,57 +6,35 @@ import {NgxDocViewerComponent} from 'ngx-doc-viewer';
     templateUrl: './ngt-dropzone-file-viewer.component.html'
 })
 export class NgtDropzoneFileViewerComponent {
-    @ViewChild(NgxDocViewerComponent) public ngxDocViewer: NgxDocViewerComponent;
-
-    @Input() public url: string;
-    @Input() public fileName: string;
+    @Input() public url: string = '';
+    @Input() public resource;
 
     @Output() public onClose: EventEmitter<void> = new EventEmitter();
 
-    public canShowViewer: boolean;
+    public canShowViewer: boolean = true;
     public loading: boolean;
 
     @HostListener('window:keydown', ['$event'])
     public keyEvent(event: KeyboardEvent) {
         if (event.code == 'Escape') {
-            this.canShowViewer = false;
-            setTimeout(() => {
-                this.onClose.emit();
-            }, 500);
+            this.close();
         }
     }
 
-    public init(): void {
+    public init(url, resource): void {
+        this.url = url;
+        this.resource = resource;
+
         this.loading = true;
         this.canShowViewer = true;
+    }
 
-        this.initReloadInterval();
+    public isImage() {
+        return this.resource?.file?.type?.includes('image');
     }
 
     public close(): void {
         this.canShowViewer = false;
         this.onClose.emit();
-    }
-
-    public downloadFile(): void {
-        let file = document.createElement("a");
-
-        file.target = '_blank';
-        file.href = this.url.replace('preview', 'download');
-        file.setAttribute("download", this.fileName);
-        file.click();
-    }
-
-    private initReloadInterval(): void {
-        const reloadInterval = setInterval(() => {
-            this.ngxDocViewer?.iframes.forEach(iframe => {
-                if (iframe.nativeElement.contentDocument) {
-                    this.ngxDocViewer.reloadIFrame(iframe.nativeElement);
-                } else {
-                    clearInterval(reloadInterval);
-                    this.loading = false;
-                }
-            });
-        }, 1000);
     }
 }

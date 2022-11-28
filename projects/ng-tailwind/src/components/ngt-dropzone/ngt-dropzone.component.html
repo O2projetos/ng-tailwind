@@ -9,13 +9,14 @@
         </ngt-helper>
     </label>
 
-    <div *ngIf="!viewMode" class="h-full w-full relative">
-        <div *ngIf="loading" class="flex absolute justify-center items-center w-full h-full cursor-wait z-10">
+    <div *ngIf="!viewMode" class="w-full relative"
+         [ngStyle]="{ 'min-height': (height || minHeight) + 'px', 'max-height': (height || maxHeight) + 'px' }">
+        <div *ngIf="loading" class="flex absolute justify-center items-center w-full cursor-wait z-10">
             <div
                 class="{{ngtDropzoneLoaderStyle.compile(['w', 'h', 'border', 'color.border'])}} rounded-full div-loader"></div>
         </div>
 
-        <ngx-dropzone  id="ngxDropzone" [multiple]="multipleSelection" [maxFileSize]="maxFileSize"
+        <ngx-dropzone id="ngxDropzone" [multiple]="multipleSelection" [maxFileSize]="maxFileSize"
                       [class.single-attachment]="itemsLimit == 1" [disabled]="disabled || loading"
                       (change)="onSelect($event)" [accept]="acceptedFiles" [expandable]="verticalExpandable"
                       [ngStyle]="{ 'height': dropzoneHeight, 'border:none!important': loading }"
@@ -25,7 +26,7 @@
                     {{ placeholder }}
                 </ngx-dropzone-label>
 
-                <ng-container *ngFor="let resource of uploadedResources">
+                <ng-container *ngFor="let resource of uploadedResources; let index = index">
                     <div class="flex flex-col w-48 mx-4"
                          title="{{ resource?.file?.name || '' }} ({{ getFormattedFileSize(resource) }})">
                         <custom-dropzone-preview *ngIf="previewType == 'DEFAULT' && isFile(resource)"
@@ -35,7 +36,7 @@
                                                  ngProjectAs="ngx-dropzone-preview">
                         </custom-dropzone-preview>
 
-                        <div *ngIf="isImage(resource)" class="cursor-pointer" (click)="onImageClick(gallery)" #gallery>
+                        <div *ngIf="isImage(resource)" class="cursor-pointer" (click)="onImageClick(resource, index)">
                             <ngx-dropzone-image-preview class="image-preview-default-class" [file]="resource.file"
                                                         [removable]="removable" (removed)="onRemove(resource)">
                             </ngx-dropzone-image-preview>
@@ -56,9 +57,11 @@
         </ngx-dropzone>
     </div>
 
-    <ngt-dropzone-view *ngIf="viewMode" [resources]="resources" class="h-full w-full"></ngt-dropzone-view>
+    <ngt-dropzone-view *ngIf="viewMode" [resources]="resources"
+                       [ngStyle]="{ 'min-height': (height || minHeight) + 'px', 'max-height': (height || maxHeight) + 'px' }">
+    </ngt-dropzone-view>
 
-    <ngt-dropzone-file-viewer [hidden]="!showNgtDropzoneFileViewer" (onClose)="forceDisableClick = false">
+    <ngt-dropzone-file-viewer [hidden]="!showNgtDropzoneFileViewer" (onClose)="onCloseFileViewer()">
     </ngt-dropzone-file-viewer>
 
     <input *ngIf='componentReady' type="hidden" [ngModel]="value" [name]="name" [value]="value">

@@ -70,10 +70,6 @@ export * from './components/ngt-modal/ngt-modal-header/ngt-modal-header.componen
 export * from './components/ngt-modal/ngt-modal-body/ngt-modal-body.component';
 export * from './components/ngt-modal/ngt-modal-footer/ngt-modal-footer.component';
 
-//NgtDate
-export * from './components/ngt-date/ngt-date.module';
-export * from './components/ngt-date/ngt-date.component';
-
 //NgtButton
 export * from './components/ngt-button/ngt-button.module';
 export * from './components/ngt-button/ngt-button.component';

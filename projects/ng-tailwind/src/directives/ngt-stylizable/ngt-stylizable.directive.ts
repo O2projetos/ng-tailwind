@@ -1,6 +1,6 @@
-import { Directive, Input } from '@angular/core';
+import {Directive, Input} from '@angular/core';
 
-import { NgtStylizableService } from '../../services/ngt-stylizable/ngt-stylizable.service';
+import {NgtStylizableService} from '../../services/ngt-stylizable/ngt-stylizable.service';
 
 @Directive({
     selector: '[ngt-stylizable]'
@@ -281,5 +281,10 @@ export class NgtStylizableDirective {
     @Input('fontCase')
     public set fontCase(fontCase: string) {
         this.ngtStylizableService.fontCase = fontCase;
+    }
+
+    @Input('opacity')
+    public set opacity(opacity: string) {
+        this.ngtStylizableService.opacity = opacity;
     }
 }

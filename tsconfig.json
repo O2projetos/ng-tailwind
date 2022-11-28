@@ -19,54 +19,6 @@
             "es2018",
             "dom"
         ],
-        "paths": {
-          "ngt-datepicker": [
-            "dist/ngt-datepicker/ngt-datepicker",
-            "dist/ngt-datepicker"
-          ],
-            "ng-tailwind": [
-                "dist/ng-tailwind"
-            ],
-            "ng-tailwind/*": [
-                "dist/ng-tailwind/*"
-            ],
-            "ngt-demo": [
-              "dist/ngt-demo/ngt-demo",
-              "dist/ngt-demo"
-            ],
-            "ngt-dropdown": [
-              "dist/ngt-dropdown/ngt-dropdown",
-              "dist/ngt-dropdown"
-            ],
-            "ngt-form": [
-              "dist/ngt-form/ngt-form",
-              "dist/ngt-form"
-            ],
-            "ngt-helper": [
-              "dist/ngt-helper/ngt-helper",
-              "dist/ngt-helper",
-              "dist/ngt-helper/ngt-helper",
-              "dist/ngt-helper"
-            ],
-            "ngt-http-coloquent": [
-                "dist/ngt-http-coloquent"
-            ],
-            "ngt-http-coloquent/*": [
-                "dist/ngt-http-coloquent/*"
-            ],
-            "ngt-stylizable": [
-              "dist/ngt-stylizable/ngt-stylizable",
-              "dist/ngt-stylizable"
-            ],
-            "ngt-svg": [
-              "dist/ngt-svg/ngt-svg",
-              "dist/ngt-svg"
-            ],
-            "ngt-validation": [
-              "dist/ngt-validation/ngt-validation",
-              "dist/ngt-validation"
-            ]
-        }
     },
     "angularCompilerOptions": {
         "fullTemplateTypeCheck": true,

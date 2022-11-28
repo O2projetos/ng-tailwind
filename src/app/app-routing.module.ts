@@ -44,10 +44,6 @@ const routes: Routes = [
                 "loadChildren": () => import('src/app/pages/form-components/ngt-checkbox-page/ngt-checkbox-page.module').then(m => m.NgtCheckboxPageModule)
             },
             {
-                "path": "ngt-date",
-                "loadChildren": () => import('src/app/pages/form-components/ngt-date-page/ngt-date-page.module').then(m => m.NgtDatePageModule)
-            },
-            {
                 "path": "ngt-dropzone",
                 "loadChildren": () => import('src/app/pages/form-components/ngt-dropzone-page/ngt-dropzone-page.module').then(m => m.NgtDropzonePageModule)
             },

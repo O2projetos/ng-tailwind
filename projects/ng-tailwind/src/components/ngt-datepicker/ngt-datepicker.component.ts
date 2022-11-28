@@ -221,8 +221,7 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
     }
 
     public ngOnDestroy() {
-        this.subscriptions.forEach(subscription => subscription.unsubscribe());
-        this.subscriptions = [];
+        this.destroySubscriptions();
     }
 
     public clear(): void {
@@ -499,5 +498,10 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
                 border: ''
             }
         });
+    }
+
+    private destroySubscriptions() {
+        this.subscriptions.forEach(subscription => subscription.unsubscribe());
+        this.subscriptions = [];
     }
 }

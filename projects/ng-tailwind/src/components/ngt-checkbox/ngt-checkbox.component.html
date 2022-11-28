@@ -2,7 +2,7 @@
     [class.flex-col]='isToggleMode()'>
     <label class="inline-flex items-center {{ isDisabled ? 'cursor-not-allowed' : 'cursor-pointer' }}"
         [class.flex-col]='isToggleMode()'>
-        <input type="checkbox" [name]='name' class="hidden" ([ngModel])='value'
+        <input type="checkbox" [name]='name' class="hidden" [(ngModel)]='value'
             [disabled]="isDisabled || isClickDisabled" #element>
 
         <span *ngIf="isToggleMode() && label" class="flex">

@@ -3,7 +3,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
     NgtAttachmentHttpService,
-    NgtDateModule,
     NgtDatepickerModule,
     NgtFormModule,
     NgtHttpFormService,
@@ -38,7 +37,6 @@ import {NgtDatepickerOptionsProvider} from "./services/ngt-datepicker-options.pr
         HomeModule,
         NgtSvgModule,
         NgtStylizableModule,
-        NgtDateModule,
         NgtDatepickerModule,
         NgtFormModule,
         FormsModule,
