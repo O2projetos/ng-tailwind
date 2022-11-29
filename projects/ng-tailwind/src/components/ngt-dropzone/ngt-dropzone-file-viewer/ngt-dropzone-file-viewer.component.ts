@@ -31,8 +31,6 @@ export class NgtDropzoneFileViewerComponent {
     }
 
     public isImage() {
-        console.log(this.resource);
-
         return this.resource?.mimeType?.includes('image');
     }
 
