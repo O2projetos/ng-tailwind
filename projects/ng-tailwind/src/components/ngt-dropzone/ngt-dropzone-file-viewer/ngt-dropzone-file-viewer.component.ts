@@ -1,4 +1,5 @@
 import {Component, EventEmitter, HostListener, Input, Output} from '@angular/core';
+import {NgtDropzoneFile} from "../ngt-dropzone.component";
 
 @Component({
     selector: 'ngt-dropzone-file-viewer',
@@ -21,7 +22,7 @@ export class NgtDropzoneFileViewerComponent {
         }
     }
 
-    public init(url, resource): void {
+    public init(url, resource: NgtDropzoneFile): void {
         this.url = url;
         this.resource = resource;
 
@@ -30,7 +31,9 @@ export class NgtDropzoneFileViewerComponent {
     }
 
     public isImage() {
-        return this.resource?.file?.type?.includes('image');
+        console.log(this.resource);
+
+        return this.resource?.mimeType?.includes('image');
     }
 
     public close(): void {

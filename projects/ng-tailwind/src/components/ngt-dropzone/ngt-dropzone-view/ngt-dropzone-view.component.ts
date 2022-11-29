@@ -37,9 +37,6 @@ export class NgtDropzoneViewComponent implements AfterViewInit {
         this.files = this.resources.filter((resource) => this.isFile(resource));
     }
 
-    public onImageClick(index) {
-    }
-
     public getFileType(resource: NgtDropzoneFile): NgtDropzoneFileTypeEnum {
         if (resource.mimeType.includes('.sheet')) {
             return NgtDropzoneFileTypeEnum.XLS;

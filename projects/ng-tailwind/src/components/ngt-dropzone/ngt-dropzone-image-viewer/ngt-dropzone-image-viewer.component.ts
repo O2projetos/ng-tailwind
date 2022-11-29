@@ -21,7 +21,7 @@ import {NgtDropzoneFileViewerComponent} from "../ngt-dropzone-file-viewer/ngt-dr
     encapsulation: ViewEncapsulation.None,
 })
 export class NgtDropzoneImageViewerComponent implements AfterViewInit, OnChanges {
-    @Input() public src: string[];
+    @Input() public src: Array<string>;
     @Input() public screenHeightOccupied: 0;
     @Input() public index = 0;
     @Input() public config: ImageViewerConfig = DefaultNgtDropzoneImageViewerConfig;
