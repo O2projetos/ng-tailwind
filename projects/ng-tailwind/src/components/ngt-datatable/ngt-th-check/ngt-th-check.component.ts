@@ -4,6 +4,7 @@ import {Subscription} from 'rxjs';
 import {NgtStylizableDirective} from '../../../directives/ngt-stylizable/ngt-stylizable.directive';
 import {NgtStylizableService} from '../../../services/ngt-stylizable/ngt-stylizable.service';
 import {NgtDatatableComponent} from '../ngt-datatable.component';
+import {uuid} from "../../../helpers/uuid";
 
 @Component({
     selector: '[ngt-th-check]',
@@ -14,6 +15,7 @@ export class NgtThCheckComponent implements AfterContentInit, OnDestroy {
     public checked = false;
     public ngtStyle: NgtStylizableService;
 
+    public name = uuid();
     private subscriptions: Array<Subscription> = [];
 
     public constructor(

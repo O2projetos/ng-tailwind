@@ -32,6 +32,7 @@ export class NgtTdCheckComponent implements OnDestroy {
 
     public ngtStyle: NgtStylizableService;
 
+    public name = uuid();
     private id = uuid();
     private subscriptions: Array<Subscription> = [];
 
