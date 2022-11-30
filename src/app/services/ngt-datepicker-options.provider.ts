@@ -26,8 +26,5 @@ export class NgtDatepickerOptionsProvider implements NgtDatepickerOptions {
     // public enableTime?: boolean;
     public hideCalendarIcon?: boolean;
     public clearable?: boolean;
-
-    public get locale(): Locale {
-        return es;
-    }
+    public locale: Locale;
 }

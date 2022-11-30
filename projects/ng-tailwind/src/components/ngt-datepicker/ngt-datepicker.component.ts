@@ -55,6 +55,7 @@ import {NgtStylizableService} from "../../services/ngt-stylizable/ngt-stylizable
 import {NgtStylizableDirective} from "../../directives/ngt-stylizable/ngt-stylizable.directive";
 import {NgtDatepickerOptionsService} from "./ngt-datepicker-options.service";
 import {NgtFormComponent} from "../ngt-form/ngt-form.component";
+import { enUS, es, ptBR } from 'date-fns/locale';
 
 @Component({
     selector: 'ngt-datepicker',
@@ -204,7 +205,7 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
             ...{placeholder: this.placeholder ?? this.ngtDatepickerOptionsService.placeholder ?? defaultDatePickerOptions.placeholder},
             ...{hideCalendarIcon: this.hideCalendarIcon ?? this.ngtDatepickerOptionsService.hideCalendarIcon ?? defaultDatePickerOptions.hideCalendarIcon},
             ...{clearable: this.clearable ?? this.ngtDatepickerOptionsService.clearable ?? defaultDatePickerOptions.clearable},
-            ...{locale: this.locale ?? this.ngtDatepickerOptionsService.locale ?? defaultDatePickerOptions.locale},
+            ...{locale: this.locale ?? this.lang() ?? defaultDatePickerOptions.locale},
         };
     }
 
@@ -222,6 +223,23 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
 
     public ngOnDestroy() {
         this.destroySubscriptions();
+    }
+
+    public lang() {
+        if(this.ngtDatepickerOptionsService.locale) {
+            return this.ngtDatepickerOptionsService.locale;
+        }
+
+        let lang = localStorage.getItem("lang");
+
+        switch (lang) {
+            case "en":
+                return enUS;
+            case "es":
+                return es;
+            default:
+                return ptBR;
+        }
     }
 
     public clear(): void {
@@ -481,7 +499,7 @@ export class NgtDatepickerComponent extends NgtBaseNgModel implements AfterViewI
             border: 'border',
             color: {
                 text: 'text-gray-800',
-                bg: 'bg-gray-200',
+                bg: 'bg-white',
                 border: 'border-gray-300'
             }
         });
