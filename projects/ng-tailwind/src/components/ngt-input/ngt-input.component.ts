@@ -79,7 +79,7 @@ export class NgtInputComponent extends NgtBaseNgModel implements OnInit, OnDestr
     @Input() public isReadonly: boolean;
     @Input() public type: string = 'text';
     @Input() public name: string;
-    @Input() public mask: string;
+    @Input() public mask: NgtInputMaskEnum;
     @Input() public focus: boolean;
     @Input() public allowClear: boolean;
     @Input() public jit: boolean;
@@ -362,7 +362,7 @@ export class NgtInputComponent extends NgtBaseNgModel implements OnInit, OnDestr
             syncValidators.push(Validators.minLength(this.minLength));
         }
 
-        if (this.mask == 'cnpj-cpf' || this.mask == 'cnpj-cpf-rut') {
+        if ([NgtInputMaskEnum.CPF, NgtInputMaskEnum.CPF_CNPJ, NgtInputMaskEnum.CPF_CNPJ_RUT, NgtInputMaskEnum.CNPJ].includes(this.mask)) {
             syncValidators.push(this.cnpjCpfValidator());
         }
 
