@@ -43,7 +43,8 @@ export enum NgtInputMaskEnum {
     CEP = 'cep',
     INTEGER = 'integer',
     TIME = 'time',
-    INTERNATIONAL_PHONE = 'international-phone'
+    INTERNATIONAL_PHONE = 'international-phone',
+    DATE = 'date'
 }
 
 @Component({
@@ -449,6 +450,7 @@ export class NgtInputComponent extends NgtBaseNgModel implements OnInit, OnDestr
                 rightAlign: false
             },
             [NgtInputMaskEnum.TIME]: '99:99',
+            [NgtInputMaskEnum.DATE]: '99/99/9999',
         };
 
         if (this.mask == NgtInputMaskEnum.DECIMAL) {
